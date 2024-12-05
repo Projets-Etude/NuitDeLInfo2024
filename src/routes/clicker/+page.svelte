@@ -2,9 +2,33 @@
 
     let score = 0;
 
+
+    const upgrade = [
+            {upgradeName: "double", upgradeLevel: 0, upgradePrice: 0},
+        ]
+
+
+
     function increment(){
-        score++;
+        score += Math.pow(2, upgrade[0].upgradeLevel);
     }
+
+    function buyUpgrade(upgradeNumber) {
+
+        let up = upgrade[upgradeNumber];
+        if(score > up.upgradePrice){
+            score -= up.upgradePrice;
+            up.upgradeLevel++;
+            priceCalculator(upgradeNumber);
+        }
+
+    }
+
+
+    function priceCalculator(upgradeNumber) {
+        //TODO calcul des prix du prochain niveau
+    }
+
 
 </script>
 
