@@ -154,7 +154,7 @@ nav{
     height: 160px;
     margin-top: 40px;
     margin-left: 40px;
-    background: rgba(100, 100, 100, 0.3) url('https://htmlacademy.ru/assets/icons/monitor-4x.png') no-repeat 50% 40%;
+    background: rgba(255, 255, 255, 1) url('https://htmlacademy.ru/assets/icons/monitor-4x.png') no-repeat 50% 40%;
     transform: skew(-30deg) rotate(-60deg);
     transition: background-color 0.5s;
 }
@@ -164,7 +164,7 @@ nav{
 }
 
 .circle-menu li a:hover {
-    background-color: rgba(100, 100, 100, 0);
+    background-color: rgb(70, 70, 70);
 }
 
 .circle-menu li:nth-child(2) a {
