@@ -16,8 +16,14 @@
 
     let score = 0;
 
+    let scorePerSeconds = 0;
+
+
     const upgrades = new Map();
-    upgrades.set("double", {upgradeLevel: 0, upgradePrice: 30})
+    upgrades.set("double", {upgradeLevel: 0, upgradePrice: 0})
+    upgrades.set("Auto 1", {upgradeLevel: 0, upgradePrice: 0, incrementValue: 1})
+    upgrades.set("Auto 2", {upgradeLevel: 0, upgradePrice: 0, incrementValue: 5})
+    upgrades.set("Auto 3", {upgradeLevel: 0, upgradePrice: 0, incrementValue: 10})
 
 
 
@@ -34,13 +40,13 @@
             score -= up.upgradePrice;
             up.upgradeLevel++;
             priceCalculator(upgradeName);
-            buyContainer.style.display = "block";
+            buyContainer.style.display = "flex";
             setTimeout(() => {
                 buyContainer.style.display = "none";
             }, 5000)
         }else {
 
-            notBuyContainer.style.display = "block";
+            notBuyContainer.style.display = "flex";
             setTimeout(() => {
                 notBuyContainer.style.display = "none";
             }, 5000)
@@ -48,6 +54,17 @@
 
     }
 
+    function automatic() {
+        let total = 0
+        upgrades.keys().forEach(key => {
+            if(key.includes("Auto")) {
+                total += upgrades.get(key).upgradeLevel*upgrades.get(key).incrementValue;
+            }
+
+        });
+        scorePerSeconds = total;
+        score +=total;
+    }
 
     function priceCalculator(upgradeNumber) {
         let up = upgrades.get(upgradeNumber);
@@ -72,6 +89,7 @@
             score = 0;
             time=5;
         }
+        automatic();
     }, 1000)
 
     function moveNageur() {
@@ -87,7 +105,7 @@
 
 <div class="Clicker">
 
-    <h1>Clicker - Score {score} - Temps restants avant reset {time}</h1>
+    <h1>Clicker - Score {score} (+{scorePerSeconds}/s) - Temps restants avant reset {time}</h1>
 
     <div class="clicker-main">
         <div bind:this={clickerContainer} class="clicker-img">
