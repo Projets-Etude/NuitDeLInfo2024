@@ -1,18 +1,4 @@
-<!--<script>
-    import {onMount} from "svelte";
-
-    let wave;
-    onMount( () => {
-        let height = 0;
-        for (const child of wave.children) {
-            height += parseInt(child.getAttribute("height"));
-            child.style.top = `-${height}px`;
-        }
-    })
-</script>-->
-
 <div id="sky">
-    <!--Waves Container-->
     <div>
         <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
@@ -26,10 +12,9 @@
             </g>
         </svg>
     </div>
-    <!--Waves end-->
 </div>
 
-<div>
+<div class="container">
     <slot/>
 </div>
 
@@ -41,20 +26,33 @@
         margin: 0;
         padding: 0;
     }
+
     #sky{
         width: 100vw;
         position: relative;
         background-color: #daf7dc;
         height: 281px;
     }
+
     .waves {
         bottom: 0;
         position: absolute;
         width: 100%;
         height:15vh;
-        margin-bottom:-7px; /*Fix for safari gap*/
+        margin-bottom:-7px;
         min-height:100px;
         max-height:150px;
+    }
+
+    .container {
+        padding: 20px;
+        width: 80vw;
+        height: 80vh;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
     }
 
     .parallax > use {
@@ -83,6 +81,11 @@
         .waves {
             height: 40px;
             min-height: 40px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
         }
     }
 </style>
