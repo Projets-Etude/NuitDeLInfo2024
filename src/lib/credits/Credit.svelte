@@ -2,12 +2,16 @@
     export let name;
     export let avatar;
     export let contributions;
+
 </script>
 
 <div class="card">
     <img class="avatar" src={avatar} alt="{name}'s Avatar" />
     <h3>{name}</h3>
     <p>Contributions: {contributions}</p>
+    <button aria-label="Go to profile" on:click={() => window.open(`https://github.com/${name}`, "_blank")}>
+        View Profile
+    </button>
 </div>
 
 <style>
@@ -41,5 +45,9 @@
 
     p {
         color: #555;
+    }
+
+    button {
+        cursor: pointer;
     }
 </style>
