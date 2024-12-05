@@ -14,9 +14,7 @@
     let score = 0;
 
     const upgrades = new Map();
-    upgrades.set("double", {upgradeLevel: 0, upgradePrice: 0});
-    upgrades.set("triple", {upgradeLevel: 0, upgradePrice: 0});
-
+    upgrades.set("double", {upgradeLevel: 0, upgradePrice: 30})
 
 
 
@@ -48,7 +46,9 @@
 
 
     function priceCalculator(upgradeNumber) {
-        //TODO calcul des prix du prochain niveau
+        let up = upgrades.get(upgradeNumber);
+
+        up.upgradePrice = Math.pow(2, up.upgradeLevel)*(up.upgradePrice);
     }
 
 
