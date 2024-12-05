@@ -20,9 +20,9 @@
 
 <style>
     :global(body) {
-        height: 1000vh;
+        height: 500vh;
         width: 1440px;
-        background:  linear-gradient(180deg, #2F4858 6%, #0A1013 68%);
+        background:  linear-gradient(180deg, #2F4858 10%, #0A1013 68%);
         margin: 0;
         padding: 0;
     }
@@ -31,17 +31,15 @@
         width: 100vw;
         position: relative;
         background-color: #daf7dc;
-        height: 281px;
+        height: 20vw;
     }
 
     .waves {
         bottom: 0;
         position: absolute;
         width: 100%;
-        height:15vh;
+        height:10vw;
         margin-bottom:-7px;
-        min-height:100px;
-        max-height:150px;
     }
 
     .container {
@@ -78,11 +76,6 @@
         }
     }
     @media (max-width: 768px) {
-        .waves {
-            height: 40px;
-            min-height: 40px;
-        }
-
         .container {
             display: flex;
             flex-direction: column;
