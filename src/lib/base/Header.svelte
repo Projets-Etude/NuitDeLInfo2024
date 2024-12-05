@@ -10,7 +10,7 @@
         navIcon.classList.toggle('fa-xmark');
         rotate = rotate ? 0 : 90;
         navIcon.style.transform = `rotate(${rotate}deg)`;
-        eventDispatcher('navigation-button-clicked')
+        eventDispatcher('navigation-button-clicked');
     }
 </script>
 
