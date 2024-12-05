@@ -3,8 +3,8 @@
     import { onMount } from 'svelte';
 
 
-    let nageurLeft = 0;
-    let nageurTop = 0;
+    let nageurLeft = 250;
+    let nageurTop = 250;
 
     let clickerContainer;
     let nageur;
@@ -76,17 +76,9 @@
 
 </script>
 
-<div>
+<div class="Clicker">
 
     <h1>Clicker - Score {score}</h1>
-
-        {#each upgrades.keys() as upgrade}
-            <button type="button" class="{upgrade}" on:click={() => buyUpgrade(upgrade)}>
-                {upgrade}
-            </button>
-        {/each}
-</div>
-
 
     <div class="clicker-main">
         <div bind:this={clickerContainer} class="clicker-img">
@@ -104,8 +96,28 @@
     </div>
 
 
+    <h3>Amélioration :</h3>
+    <div class="Ameliorations-buttons">
+        {#each upgrades.keys() as upgrade}
+            <button type="button" class="{upgrade}" on:click={() => buyUpgrade(upgrade)}>
+                {upgrade}
+            </button>
+        {/each}
+    </div>
+
+</div>
 
 <style>
+
+div.Clicker{
+    background-color: #86bbd8;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 
 div.clicker-main{
     margin-top: 2vw;
@@ -132,11 +144,14 @@ div.Ameliorations-buttons>button{
 
 div.clicker-img {
     width: 75vw;
-    height: 35vw;
+    height: 30vw;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100% 100%;
     background-image: url("$lib/clicker/ocean.avif");
+    border: 0.3rem solid #336699;
+    border-radius: 0.5rem;
+    margin-bottom: 40rem;
 }
 
 button.nageur {
