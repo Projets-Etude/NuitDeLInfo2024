@@ -6,6 +6,8 @@
     let nageurLeft = 0;
     let nageurTop = 0;
 
+    let time = 5;
+
     let clickerContainer;
     let nageur;
 
@@ -21,6 +23,7 @@
 
     function increment(){
         moveNageur();
+        time= 5;
         score += Math.pow(2, upgrades.get("double").upgradeLevel);
     }
 
@@ -63,7 +66,13 @@
         });
     });
 
-
+    setInterval(() => {
+        time--;
+        if(time == 0) {
+            score = 0;
+            time=5;
+        }
+    }, 1000)
 
     function moveNageur() {
 
@@ -78,7 +87,7 @@
 
 <div>
 
-    <h1>Clicker - Score {score}</h1>
+    <h1>Clicker - Score {score} - Temps restants avant reset {time}</h1>
 
         {#each upgrades.keys() as upgrade}
             <button type="button" class="{upgrade}" on:click={() => buyUpgrade(upgrade)}>
