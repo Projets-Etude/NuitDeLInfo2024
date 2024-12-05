@@ -2,6 +2,12 @@
 
     import { onMount } from 'svelte';
 
+
+    let nageurLeft = 0;
+    let nageurTop = 0;
+
+    let clickerContainer;
+
     let score = 0;
 
 
@@ -12,6 +18,7 @@
 
 
     function increment(){
+        moveNageur();
         score += Math.pow(2, upgrade[0].upgradeLevel);
     }
 
@@ -42,13 +49,20 @@
         });
     });
 
+
+
+    function moveNageur() {
+        nageurTop = Math.random() * (clickerContainer.offsetTop/2.5) +  (clickerContainer.offsetTop/2.5);
+        nageurLeft = Math.random() * 90;
+    }
+
 </script>
 
 <h1>Clicker - Score {score}</h1>
 
 <div class="clicker-main">
-    <div class="clicker-img">
-        <button type="button" class="nageur" on:click={increment}>
+    <div bind:this={clickerContainer} class="clicker-img">
+        <button style="left: {nageurLeft}%; top: {nageurTop}%;" type="button" class="nageur" on:click={increment}>
         </button>
     </div>
 </div>
@@ -70,6 +84,7 @@ div.clicker-img {
 }
 
 button.nageur {
+    position: relative;
     width: 20%;
     height: 20%;
     background-image: url("$lib/clicker/nageur.png");
