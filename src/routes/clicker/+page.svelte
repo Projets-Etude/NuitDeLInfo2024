@@ -14,7 +14,9 @@
     let score = 0;
 
     const upgrades = new Map();
-    upgrades.set("double", {upgradeLevel: 0, upgradePrice: 0})
+    upgrades.set("double", {upgradeLevel: 0, upgradePrice: 0});
+    upgrades.set("triple", {upgradeLevel: 0, upgradePrice: 0});
+
 
 
 
@@ -69,41 +71,63 @@
 
 </script>
 
-<div>
+<div class="Clicker">
+
     <h1>Clicker - Score {score}</h1>
-    {#each upgrades.keys() as upgrade}
-        <button type="button" class="{upgrade}" on:click={() => buyUpgrade(upgrade)}>
-            {upgrade}
-        </button>
-    {/each}
-</div>
-
-
-<div class="clicker-main">
-    <div bind:this={clickerContainer} class="clicker-img">
-        <button style="left: {nageurLeft}%; top: {nageurTop}%;" type="button" class="nageur" on:click={increment}>
-        </button>
-
-        <div bind:this={notBuyContainer} class="buy-upgrade-cancel">
-            <p>Vous n'avez pas assez de coins</p>
-        </div>
-        <div bind:this={buyContainer} class="buy-upgrade-success">
-            <p>Vous avez acheté l'upgrade</p>
-        </div>
-
+    <div class="Ameliorations-buttons">
+        {#each upgrades.keys() as upgrade}
+            <button type="button" class="{upgrade}" on:click={() => buyUpgrade(upgrade)}>
+                {upgrade}
+            </button>
+        {/each}
     </div>
+
+
+    <div class="clicker-main">
+        <div bind:this={clickerContainer} class="clicker-img">
+            <button style="margin-left: {nageurLeft}%; margin-top: {nageurTop}%;" type="button" class="nageur" on:click={increment}>
+            </button>
+
+            <div bind:this={notBuyContainer} class="buy-upgrade-cancel">
+                <p>Vous n'avez pas assez de coins</p>
+            </div>
+            <div bind:this={buyContainer} class="buy-upgrade-success">
+                <p>Vous avez acheté l'upgrade</p>
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
 <style>
 
 div.clicker-main{
+    margin-top: 2vw;
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+div.Ameliorations-buttons{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+div.Ameliorations-buttons>button{
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.2rem;
+    background-color: #2f4858;
+    color: white;
 }
 
 div.clicker-img {
-    width: 80vw;
-    height: 40vw;
+    width: 75vw;
+    height: 35vw;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100% 100%;
