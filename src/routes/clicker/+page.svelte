@@ -7,6 +7,7 @@
     let nageurTop = 0;
 
     let clickerContainer;
+    let nageur;
 
     let buyContainer;
     let notBuyContainer;
@@ -65,27 +66,31 @@
 
 
     function moveNageur() {
-        nageurTop = Math.random() * (clickerContainer.offsetTop/2.5) +  (clickerContainer.offsetTop/2.5);
-        nageurLeft = Math.random() * 90;
+
+        nageurTop = Math.abs(Math.random() * (clickerContainer.offsetHeight/2) +  (clickerContainer.offsetHeight/2) - nageur.offsetHeight);
+        console.log(nageurTop);
+        nageurLeft =Math.abs((Math.random() * clickerContainer.offsetWidth) - nageur.offsetWidth);
+
+
     }
 
 </script>
 
-<div class="Clicker">
+<div>
 
     <h1>Clicker - Score {score}</h1>
-    <div class="Ameliorations-buttons">
+
         {#each upgrades.keys() as upgrade}
             <button type="button" class="{upgrade}" on:click={() => buyUpgrade(upgrade)}>
                 {upgrade}
             </button>
         {/each}
-    </div>
+</div>
 
 
     <div class="clicker-main">
         <div bind:this={clickerContainer} class="clicker-img">
-            <button style="margin-left: {nageurLeft}%; margin-top: {nageurTop}%;" type="button" class="nageur" on:click={increment}>
+            <button bind:this={nageur} style="left: {nageurLeft}px; top: {nageurTop}px;" type="button" class="nageur" on:click={increment}>
             </button>
 
             <div bind:this={notBuyContainer} class="buy-upgrade-cancel">
@@ -98,7 +103,7 @@
         </div>
     </div>
 
-</div>
+
 
 <style>
 
