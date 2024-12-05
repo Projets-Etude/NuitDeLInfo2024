@@ -10,25 +10,23 @@
 
     let score = 0;
 
-
-    const upgrade = [
-            {upgradeName: "double", upgradeLevel: 0, upgradePrice: 0},
-        ]
+    const upgrades = new Map();
+    upgrades.set("double", {upgradeLevel: 0, upgradePrice: 0})
 
 
 
     function increment(){
         moveNageur();
-        score += Math.pow(2, upgrade[0].upgradeLevel);
+        score += Math.pow(2, upgrades[0].upgradeLevel);
     }
 
-    function buyUpgrade(upgradeNumber) {
+    function buyUpgrade(upgradeName) {
 
-        let up = upgrade[upgradeNumber];
+        let up = upgrades.get(upgradeName);
         if(score > up.upgradePrice){
             score -= up.upgradePrice;
             up.upgradeLevel++;
-            priceCalculator(upgradeNumber);
+            priceCalculator(upgradeName);
         }
 
     }
@@ -58,7 +56,15 @@
 
 </script>
 
-<h1>Clicker - Score {score}</h1>
+<div>
+    <h1>Clicker - Score {score}</h1>
+    {#each upgrades.keys() as upgrade (upgrade)}
+        <button type="button" class="{upgrade}" on:click={buyUpgrade({upgrade})}>
+            {upgrade}
+        </button>
+    {/each}
+</div>
+
 
 <div class="clicker-main">
     <div bind:this={clickerContainer} class="clicker-img">
@@ -94,6 +100,10 @@ button.nageur {
     background-color: rgba(255, 255, 255, 0);
     border: 0;
     transition: 0.2s;
+}
+
+button.nageur:hover {
+    scale: 1.3;
 }
 
 
