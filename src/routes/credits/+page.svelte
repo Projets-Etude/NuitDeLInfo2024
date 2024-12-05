@@ -9,6 +9,7 @@
     let chart;
     let contributors = [];
     let punchCardData = [];
+    let isLoading = true;
     const owner = "BaptisteCls";
     const repo = "HDFC";
     const token = "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";
@@ -41,7 +42,6 @@
             });
 
             punchCardData = response.data;
-            console.log(punchCardData);
             renderChart();
         } catch (error) {
             console.error("Error fetching punch card:", error);
@@ -84,6 +84,9 @@
                 }
             }
         });
+        setTimeout(() => {
+            isLoading = false;
+        }, 2000);
     }
 
 
@@ -110,6 +113,12 @@
 </div>
 <div class="chart-container">
     <h2>Historique des commits</h2>
+    {#if isLoading}
+        <div class="loading-bar">
+            <div class="progress"></div>
+        </div>
+    {/if}
+
     <canvas id="commits-chart" width="400" height="200"></canvas>
 </div>
 
@@ -132,4 +141,24 @@
         margin: auto;
         width: 50vw;
     }
+/*
+    .loading-bar {
+        width: 100%;
+        height: 4px;
+        background-color: #ddd;
+        position: relative;
+    }
+
+    .progress {
+        width: 0;
+        height: 100%;
+        background-color: #4caf50;
+        animation: progressAnimation 2s linear infinite;
+    }
+
+    @keyframes progressAnimation {
+        0% { width: 0; }
+        50% { width: 50%; }
+        100% { width: 100%; }
+    }*/
 </style>
