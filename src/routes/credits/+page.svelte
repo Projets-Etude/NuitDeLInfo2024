@@ -59,7 +59,7 @@
             data: {
                 labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
                 datasets: [{
-                    label: 'Commits per Hour',
+                    label: 'Commits par heure',
                     data: hourlyCommits,
                     backgroundColor: 'rgba(51, 102, 153, 0.6)',
                     borderColor: 'rgba(51, 102, 153, 1)',
