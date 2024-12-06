@@ -9,17 +9,17 @@
 
         // Charger les images des créatures
         const fishImage = new Image();
-        fishImage.src = './src/routes/retroSea/fish.png'; // Poisson personnalisé
+        fishImage.src = './retroSea/fish.png'; // Poisson personnalisé
         const coralImage = new Image();
-        coralImage.src = './src/routes/retroSea/coral.png'; // Corail personnalisé
+        coralImage.src = './retroSea/coral.png'; // Corail personnalisé
         const joueurImage = new Image();
-        joueurImage.src = './src/routes/retroSea/joueur.png';
+        joueurImage.src = './retroSea/joueur.png';
         const deepFishImage = new Image();
-        deepFishImage.src = './src/routes/retroSea/deepFish.png';
+        deepFishImage.src = './retroSea/deepFish.png';
 
 
-        const popSound = new Audio('./src/routes/retroSea/pop.mp3');
-        const bubbleSound = new Audio('./src/routes/retroSea/bubbles.mp3');
+        const popSound = new Audio('./retroSea/pop.mp3');
+        const bubbleSound = new Audio('./retroSea/bubbles.mp3');
         bubbleSound.loop = true;
         bubbleSound.play();
 
