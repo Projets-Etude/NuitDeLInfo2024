@@ -250,6 +250,7 @@
 
         .wrapper {
             padding-bottom: 100vh;
+            overflow: hidden;
         }
 
         .container {
