@@ -251,11 +251,9 @@
 <style>
     :global(body){
         margin: 0;
-        background-color: #86bbd8;
-        background-image: url("https://www.transparenttextures.com/patterns/arches.png");
     }
     :global(footer){
-        transform: translate(0, 10px);
+        transform: scale(1.2);
     }
     div.divide-click {
         position: absolute;
@@ -265,7 +263,7 @@
     }
 
     div.Clicker{
-        padding: 0;
+        padding-bottom: 5%;
         margin: 0;
         height: 100%;
         width: 100%;
@@ -275,6 +273,8 @@
         flex-direction: column;
         position: relative;
         font-family: 'Inter', sans-serif;
+        background-color: #86bbd8;
+        background-image: url("https://www.transparenttextures.com/patterns/arches.png");
     }
 
     div.Clicker>h1, div.Clicker>h3{
