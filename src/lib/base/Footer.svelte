@@ -1,6 +1,6 @@
 <footer>
     <div class="gradient">
-        Hugo Desmons fan club - Nuit de l'info 2024
+        © Hugo Desmons Fan Club - Nuit de l'info 2024
     </div>
 </footer>
 
@@ -11,6 +11,8 @@
     footer{
         background-color: #003C5A;
         height: 100px;
+        font-family: 'Inter', sans-serif;
+        font-weight: bold;
         background-image: radial-gradient(#003C5A, #00283C);
     }
     footer .gradient{
