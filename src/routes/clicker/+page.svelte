@@ -97,6 +97,7 @@
         document.querySelectorAll('button.nageur').forEach(link => {
             setInterval(() => randomMovement(link), 300);
         });
+        window.addEventListener('resize', moveNageur);
     });
 
     setInterval(() => {
@@ -248,197 +249,262 @@
 </div>
 
 <style>
+    :global(body){
+        margin: 0;
+        background-color: #86bbd8;
+        background-image: url("https://www.transparenttextures.com/patterns/arches.png");
+    }
+    :global(footer){
+        transform: translate(0, 10px);
+    }
+    div.divide-click {
+        position: absolute;
+        width: inherit;
+        height: inherit;
+        z-index: 0;
+    }
 
-:global(body){
-    margin: 0;
-    background-color: #86bbd8;
-    background-image: url("https://www.transparenttextures.com/patterns/arches.png");
-}
-:global(footer){
-    transform: translate(0, 10px);
-}
-div.divide-click {
-    position: absolute;
-    width: inherit;
-    height: inherit;
-    z-index: 0;
-}
+    div.Clicker{
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+        font-family: 'Inter', sans-serif;
+    }
 
-div.Clicker{
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    font-family: 'Inter', sans-serif;
-}
+    div.Clicker>h1, div.Clicker>h3{
+        margin-bottom: 0;
+        padding-bottom: 0;
+        font-size: 2rem;
+    }
 
-div.Clicker>h1{
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
+    div.clicker-main{
+        margin-top: 2vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
 
-div.Clicker>h3{
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
+    div.clicker-img {
+        width: 75vw;
+        height: 30vw;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 100% 100%;
+        background-image: url("$lib/clicker/ocean.avif");
+        border: 0.3rem solid #336699;
+        border-radius: 0.5rem;
+        margin-bottom: 5rem;
+    }
 
-div.clicker-main{
-    margin-top: 2vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    button.nageur {
+        position: relative;
+        width: 20%;
+        height: 20%;
+        background-image: url("$lib/clicker/nageur.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 100%;
+        background-color: rgba(255, 255, 255, 0);
+        border: 0;
+        transition: 0.2s;
+    }
 
-div.clicker-img {
-    width: 75vw;
-    height: 30vw;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 100% 100%;
-    background-image: url("$lib/clicker/ocean.avif");
-    border: 0.3rem solid #336699;
-    border-radius: 0.5rem;
-    margin-bottom: 5rem;
-}
+    button.nageur:hover {
+        scale: 1.3;
+    }
 
-button.nageur {
-    position: relative;
-    width: 20%;
-    height: 20%;
-    background-image: url("$lib/clicker/nageur.png");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 100%;
-    background-color: rgba(255, 255, 255, 0);
-    border: 0;
-    transition: 0.2s;
-}
+    div.buy-upgrade-cancel, div.buy-upgrade-success {
+        display: none;
+    }
 
-button.nageur:hover {
-    scale: 1.3;
-}
+    a{
+        font-size: 12px;
+        text-transform: uppercase;
+    }
+    .nav-area{
+        background: #262626;
+        z-index: 100;
+    }
 
-div.buy-upgrade-cancel {
-    display: none;
-}
+    .nav-area:after{
+        content: '';
+        clear: both;
+        display: block;
+    }
+    .nav-area ul{
+        list-style: none;
+        margin: 0;
+    }
+    .menu {
+        width: 100%;
+        margin: 0 auto !important;
+        padding: 0;
+    }
+    .nav-area > ul > li{
+        position: relative;
+        float: left;
+    }
+    .nav-area ul li a {
+        text-decoration: none;
+        color: #fff;
+        padding: 15px 20px;
+        display: block;
+        font-weight: 500;
+        letter-spacing: 1px;
+    }
+    .nav-area ul li:hover a{
+        background: #34495e;
+    }
 
-div.buy-upgrade-success {
-    display: none;
-}
+    .nav-area ul ul {
+        position: absolute;
+        padding: 0;
+        min-width: 160px;
+        display: none;
+        top: 100%;
+        left: 0;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.5);
+    }
+    .nav-area ul li:hover > ul{
+        display: block;
+    }
+    .nav-area ul ul li:hover a{
+        background: #262626;
+    }
+    .nav-area ul ul li{
+        position: relative;
+    }
+    .nav-area ul ul ul{
+        top: 0;
+        left: 100%;
+    }
+    .nav-area ul ul ul li:hover a{
+        background: #34495e;
+    }
 
-a{
-    font-size: 12px;
-    text-transform: uppercase;
-}
-.nav-area{
-    background: #262626;
-    z-index: 100;
-}
-.nav-area:after{
-    content: '';
-    clear: both;
-    display: block;
-}
-.nav-area ul{
-    list-style: none;
-    margin: 0;
-}
-.menu {
-    width: 500px;
-    margin: 0 auto !important;
-}
-.nav-area > ul > li{
-    float: left;
-    position: relative;
-}
-.nav-area ul li a {
-    text-decoration: none;
-    color: #fff;
-    padding: 15px 20px;
-    display: block;
-    font-weight: 500;
-    letter-spacing: 1px;
-}
-.nav-area ul li:hover a{
-    background: #34495e;
-}
+    div.pop-up {
+        position: absolute;
+        text-align: center;
+        width: 50%;
+        height: 40%;
+        background-color: #DAF7DC;
+        border-radius: 0.5rem;
+        border: 0.4rem solid;
+        border-color: #2F4858;
+    }
 
-.nav-area ul ul {
-    position: absolute;
-    padding: 0;
-    min-width: 160px;
-    display: none;
-    top: 100%;
-    left: 0;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.5);
-}
-.nav-area ul li:hover > ul{
-    display: block;
-}
-.nav-area ul ul li:hover a{
-    background: #262626;
-}
-.nav-area ul ul li{
-    position: relative;
-}
-.nav-area ul ul ul{
-    top: 0;
-    left: 100%;
-}
-.nav-area ul ul ul li:hover a{
-    background: #34495e;
-}
+    div.pop-up button {
+        background-color: #2F4858;
+        color: white;
+        width: 30%;
+        height: 10%;
+        border-radius: 30px;
+    }
 
-div.pop-up {
-    position: absolute;
-    text-align: center;
-    width: 50%;
-    height: 40%;
-    background-color: #DAF7DC;
-    border-radius: 0.5rem;
-    border: 0.4rem solid;
-    border-color: #2F4858;
+    div.stats{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
+        margin-top: 0.5rem;
+        background: #2f4858;
+    }
 
-}
+    div.stats a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-family: 'Inter', sans-serif;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
 
-div.pop-up button {
-    background-color: #2F4858;
-    color: white;
-    width: 30%;
-    height: 10%;
-    border-radius: 30px;
-}
+    div.stats a img {
+        width: 10%;
+        height: auto;
+    }
 
-div.stats{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    width: 100%;
-    margin-top: 0.5rem;
-    background: #2f4858;
-}
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .clicker-img {
+            width: 90vw;
+            height: 50vw;
+        }
 
-div.stats a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-family: 'Inter', sans-serif;
-    font-weight: bold;
-    font-size: 1.1rem;
+        button.nageur {
+            width: 30%;
+            height: 30%;
+        }
 
-}
+        .menu {
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
 
-div.stats a img {
-    width: 10%;
-    height: auto;
-}
+        .nav-area ul {
+            padding: 0;
+            margin: 0;
+        }
 
+        .nav-area > ul > li {
+            width: 100%;
+            float: none;
+            position: relative;
+        }
+
+        .nav-area ul ul {
+            position: static;
+            box-shadow: none;
+        }
+
+        div.pop-up {
+            width: 80%;
+            height: 60%;
+        }
+
+        div.stats {
+            flex-direction: column;
+            font-size: 0.9rem;
+        }
+
+        div.stats a {
+            margin: 5px 0;
+        }
+    }
+
+    @media (max-width: 480px) {
+        h1, h3 {
+            font-size: 1.5rem;
+        }
+
+        .clicker-img {
+            width: 100vw;
+            height: 60vw;
+        }
+
+        button.nageur {
+            width: 35%;
+            height: 35%;
+        }
+
+        div.pop-up {
+            width: 90%;
+            height: 70%;
+        }
+
+        div.stats a img {
+            width: 15%;
+        }
+    }
 </style>
 
