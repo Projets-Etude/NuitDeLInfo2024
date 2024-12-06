@@ -24,12 +24,9 @@
 
 
     const upgrades = new Map();
-    upgrades.set("double", {upgradeLevel: 0, upgradePrice: 0})
-    upgrades.set("Auto 1", {upgradeLevel: 0, upgradePrice: 0, incrementValue: 1})
-    upgrades.set("Auto 2", {upgradeLevel: 0, upgradePrice: 0, incrementValue: 5})
-    upgrades.set("Auto 3", {upgradeLevel: 0, upgradePrice: 0, incrementValue: 10})
 
 
+    setStartValue();
 
 
     function increment(){
@@ -104,12 +101,22 @@
 
     setInterval(() => {
         time--;
-        if(time == 0) {
-            score = 0;
-            time=5;
+        if(time === 0) {
+            setStartValue();
         }
         automatic();
     }, 1000)
+
+    function setStartValue() {
+        score = 0;
+        time=5;
+        upgrades.clear();
+        upgrades.set("double", {upgradeLevel: 0, upgradePrice: 30})
+        upgrades.set("Auto 1", {upgradeLevel: 0, upgradePrice: 30, incrementValue: 1})
+        upgrades.set("Auto 2", {upgradeLevel: 0, upgradePrice: 300, incrementValue: 5})
+        upgrades.set("Auto 3", {upgradeLevel: 0, upgradePrice: 3000, incrementValue: 10})
+    }
+
 
     function moveNageur() {
 
@@ -129,6 +136,11 @@
         goto("/")
     }
 
+    function dividePoints(multiplier) {
+        score = score*multiplier;
+    }
+
+
 </script>
 
 
@@ -142,7 +154,7 @@
     <nav class="nav-area">
         <ul class="menu">
             <li><a on:mouseover={redirectHome} href="#">Accueil</a></li>
-            <li><a href="#">À propos</a>
+            <li><a href="">À propos</a>
                 <ul>
                     <li><a href="#">Paramètres</a></li>
                     <li><a href="#">Contact</a></li>
@@ -182,7 +194,7 @@
                 <ul>
                     <li><a href="#">Paramètres</a></li>
                     <li><a href="#">Contact</a></li>
-                    <li><a href="#">Améliorations</a>
+                    <li><a on:mouseover={dividePoints(0.9)} href="#">Améliorations</a>
                 </ul>
             </li>
         </ul>
@@ -190,14 +202,17 @@
 
 
     <div class="stats">
-        <a> {score} <img src="./clicker/points.png"> </a>
-        <a> Mode inversé : {inversed}</a>
+        <a> {parseInt(score)} <img src="./clicker/points.png"> </a>
+        <a> Mode inversé : {(inversed) ? "Activé" : "Désactivé"} </a>
         <a> {scorePerSeconds} <img src="./clicker/points.png">/ seconde </a>
     </div>
 
     <div class="clicker-main">
-        <div bind:this={clickerContainer} class="clicker-img">
-            <button bind:this={nageur} style="left: {nageurLeft}px; top: {nageurTop}px;" type="button" class="nageur" on:click={increment}>
+        <div bind:this={clickerContainer}  class="clicker-img">
+            <div on:click={dividePoints(0.5)} class="divide-click">
+
+            </div>
+            <button bind:this={nageur} style="left: {nageurLeft}px; top: {nageurTop}px;" type="button" class="nageur" on:click={increment} >
             </button>
 
             <div bind:this={notBuyContainer} class="buy-upgrade-cancel">
@@ -223,6 +238,7 @@
             - Un mode inversé qui décremente le score plutot que de l'incrementer <br>
             - Les améliorations cachés dans des sous-menus interminable
             - Un reset du score apres 5 secondes d'inactivités <br>
+            - Ne ratez pas la cible, ou vous perdrez la moitié de vos points <br>
             - Et quelques autres détails... <br>
 
         </p>
@@ -236,6 +252,12 @@
 :global(body){
     margin: 0;
 }
+div.divide-click {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    z-index: 0;
+}
 
 div.Clicker{
     background-color: #86bbd8;
@@ -247,6 +269,7 @@ div.Clicker{
     align-items: center;
     flex-direction: column;
     position: relative;
+    font-family: 'Inter', sans-serif;
 }
 
 div.Clicker>h1{
@@ -289,6 +312,7 @@ button.nageur {
     background-color: rgba(255, 255, 255, 0);
     border: 0;
     transition: 0.2s;
+    z-index: 100;
 }
 
 button.nageur:hover {
