@@ -30,51 +30,53 @@
     }
 </script>
 
-<div id="sky" class:dark={darkMode}>
-    {#if darkMode}
-    <div class="dots">
-        {#each dots as dot (dot.x)}
-            <div
-                    class="dot"
-                    style="top: {dot.y}%; left: {dot.x}%; width: {dot.size}px; height: {dot.size}px;"
-            ></div>
-        {/each}
+<div class="wrapper" class:dark={darkMode}>
+    <div id="sky" class:dark={darkMode}>
+        {#if darkMode}
+            <div class="dots">
+                {#each dots as dot (dot.x)}
+                    <div
+                            class="dot"
+                            style="top: {dot.y}%; left: {dot.x}%; width: {dot.size}px; height: {dot.size}px;"
+                    ></div>
+                {/each}
+            </div>
+        {/if}
+
+        <button class:dark={darkMode} aria-label="Switch mode" on:click={switchMode}>
+            <span class="buttonMode"></span>
+        </button>
+
+        <div>
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                 viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax" class:dark={darkMode}>
+                    <use xlink:href="#gentle-wave" x="48" y="-1" />
+                    <use xlink:href="#gentle-wave" x="48" y="2" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" />
+                </g>
+            </svg>
+        </div>
     </div>
-    {/if}
 
-    <button class:dark={darkMode} aria-label="Switch mode" on:click={switchMode}>
-        <span class="buttonMode"></span>
-    </button>
-
-    <div>
-        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-             viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-            <defs>
-                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-            </defs>
-            <g class="parallax" class:dark={darkMode}>
-                <use xlink:href="#gentle-wave" x="48" y="-1" />
-                <use xlink:href="#gentle-wave" x="48" y="2" />
-                <use xlink:href="#gentle-wave" x="48" y="7" />
-            </g>
-        </svg>
+    <div class="container">
+        <slot />
     </div>
-</div>
-
-<div class="container">
-    <slot />
 </div>
 
 <style>
-    :global(body) {
-        height: 500vh;
-        margin: 0;
-        padding: 0;
+    .wrapper {
+        background: linear-gradient(180deg, #86BBD8 30%, #0A1013 90%);
+        padding-bottom: 50%;
+        transition-duration: 1s;
     }
 
-    :global(body).dark {
-        background: linear-gradient(180deg, #86BBD8 8%, #0A1013 68%);
-
+    .wrapper.dark {
+        transition: ease 0.4s;
+        background: linear-gradient(180deg, #2F4858 30%, #0A1013 90%);
     }
 
     #sky {
@@ -85,6 +87,7 @@
         transition: background-color 0.5s ease-in-out;
         z-index: 5;
     }
+
     #sky.dark {
         background: #333333;
     }
