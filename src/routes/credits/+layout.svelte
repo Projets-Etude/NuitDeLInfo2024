@@ -16,15 +16,9 @@
 </script>
 
 <div id="sky" class:dark={darkMode}>
-    {#if !darkMode}
-    <button class="sun" on:click={switchMode}>
-        <span></span>
+    <button class:dark={darkMode} on:click={switchMode}>
+        <span id="button"></span>
     </button>
-    {:else }
-    <button class="moon" on:click={switchMode}>
-        <span></span>
-    </button>
-    {/if}
     <div>
         <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
@@ -46,6 +40,8 @@
 
 <style>
     :global(body) {
+        background: linear-gradient(180deg, #2F4858 6%, #0A1013 68%);
+        height: 500vh;
         margin: 0;
         padding: 0;
     }
@@ -53,16 +49,35 @@
     #sky {
         width: 100vw;
         position: relative;
-        background-color: #daf7dc; /* Light mode color */
+        background-color: #daf7dc;
         height: 20vw;
         transition: background-color 0.3s ease-in-out;
     }
 
     #sky.dark {
-        background-color: #333333; /* Dark mode color */
+        background-color: #333333;
     }
 
-    .moon {
+    #button{
+        position: absolute;
+        height: 20vw;
+        width: 20vw;
+        top: -12vw;
+        left: -10vw;
+        background-color: #ffd900;
+        border-radius: 50%;
+        border: none;
+        display: inline-block;
+        transition-duration: 0.4s;
+    }
+
+    #button:hover {
+        cursor: pointer;
+        background-color: #ff8800;
+        box-shadow: 6px 6px rgb(255, 153, 0);
+    }
+
+    #sky.dark #button {
         position: absolute;
         height: 20vw;
         width: 20vw;
@@ -75,29 +90,10 @@
         transition-duration: 0.4s;
     }
 
-    .moon:hover {
+    #sky.dark #button:hover {
         cursor: pointer;
         background-color: lightgrey;
         box-shadow: -6px 6px darkgrey;
-    }
-
-    .sun:hover {
-        cursor: pointer;
-        background-color: #ff8800;
-        box-shadow: 6px 6px rgb(255, 153, 0);
-    }
-
-    .sun{
-        position: absolute;
-        height: 20vw;
-        width: 20vw;
-        top: -12vw;
-        left: -10vw;
-        background-color: #ffd900;
-        border-radius: 50%;
-        border: none;
-        display: inline-block;
-        transition-duration: 0.4s;
     }
 
     .waves {
