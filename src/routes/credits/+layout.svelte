@@ -68,6 +68,9 @@
 </div>
 
 <style>
+    :global(body){
+        overflow-x: hidden;
+    }
     .wrapper {
         background: linear-gradient(180deg, #86BBD8 40%, #0A1013 90%);
         width: 100vw;
