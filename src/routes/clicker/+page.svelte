@@ -2,6 +2,7 @@
 
     import { onMount } from 'svelte';
 
+    let startPopUP;
 
     let nageurLeft = 250;
     let nageurTop = 250;
@@ -101,11 +102,23 @@
 
     }
 
+
+    function closePopUP() {
+        startPopUP.style.display="none";
+    }
+
 </script>
+
+
 
 <div class="Clicker">
 
-    <h1>Clicker - Score {score} (+{scorePerSeconds}/s) - Temps restants avant reset {time}</h1>
+
+    <div class="stats">
+        <a> {score} <img src="./clicker/points.png"> </a>
+        <a> {scorePerSeconds} <img src="./clicker/points.png">/ seconde </a>
+    </div>
+    <h1>Temps restants avant reset {time}</h1>
 
     <div class="clicker-main">
         <div bind:this={clickerContainer} class="clicker-img">
@@ -123,6 +136,7 @@
     </div>
 
 
+
     <h3>Amélioration :</h3>
     <div class="Ameliorations-buttons">
         {#each upgrades.keys() as upgrade}
@@ -130,6 +144,11 @@
                 {upgrade}
             </button>
         {/each}
+    </div>
+
+    <div bind:this={startPopUP} class="pop-up">
+        <p>Présentation du jeu</p>
+        <button on:click={closePopUP}>close</button>
     </div>
 
 </div>
@@ -144,6 +163,7 @@ div.Clicker{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    position: relative;
 }
 
 div.clicker-main{
@@ -206,6 +226,34 @@ div.buy-upgrade-success {
     display: none;
 }
 
+
+div.pop-up {
+    position: absolute;
+    text-align: center;
+    width: 50%;
+    height: 40%;
+    margin-top: -20%;
+    background-color: #DAF7DC;
+
+}
+
+div.pop-up button {
+    background-color: #2F4858;
+    color: white;
+    border-radius: 30px;
+}
+div.stats a {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    color: white;
+    font-family: 'Inter';
+}
+
+div.stats a img {
+    width: 10%;
+    height: auto;
+}
 
 </style>
 
