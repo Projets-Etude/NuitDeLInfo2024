@@ -16,15 +16,6 @@
 
     const octokit = new Octokit({ auth: token });
 
-    function toggleDarkMode() {
-        darkMode = !darkMode;
-
-        if (chart) {
-            chart.destroy();
-            renderChart();
-        }
-    }
-
     async function fetchContributors() {
         const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contributors`, {
             headers: { "Authorization": `Bearer ${token}` }
@@ -111,9 +102,6 @@
 </script>
 
 <div class="contributors-container" class:dark-mode={darkMode}>
-    <button class="toggle-button" on:click={toggleDarkMode}>
-        Switch to {darkMode ? 'Light' : 'Dark'} Mode
-    </button>
     {#each contributors as contributor}
         <Card
                 name={contributor.login}
@@ -137,11 +125,6 @@
         transition: background-color 0.3s, color 0.3s;
     }
 
-    .dark-mode {
-        background-color: #121212;
-        color: white;
-    }
-
     .contributors-container {
         display: flex;
         flex-wrap: wrap;
@@ -159,34 +142,5 @@
     canvas {
         background-color: #fff;
         border-radius: 10px;
-    }
-
-    .dark-mode canvas {
-        background-color: #1d1d1d;
-    }
-
-    .toggle-button {
-        margin-bottom: 20px;
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .toggle-button:hover {
-        background-color: #0056b3;
-    }
-
-    .dark-mode .toggle-button {
-        background-color: #444;
-        color: white;
-    }
-
-    .dark-mode .toggle-button:hover {
-        background-color: #666;
     }
 </style>

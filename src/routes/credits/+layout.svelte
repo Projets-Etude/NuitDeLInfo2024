@@ -1,4 +1,41 @@
+<script>
+    import {onMount} from "svelte";
+
+    // Initialisation au chargement de la page
+    onMount(() => {
+        const darkMode = sessionStorage.getItem('darkMode') === 'true';
+        updateMode(darkMode);
+    });
+
+    // Bascule entre le mode clair et sombre
+    function switchMode() {
+        const darkMode = sessionStorage.getItem('darkMode') === 'true';
+        sessionStorage.setItem('darkMode', !darkMode); // Inverse l'état actuel
+        updateMode(!darkMode);
+    }
+
+    // Met à jour l'apparence en fonction du mode
+    function updateMode(isDark) {
+        const sky = document.getElementById('sky');
+        if (isDark) {
+            sky.classList.add('dark');
+        } else {
+            sky.classList.remove('dark');
+        }
+    }
+
+    onMount(() => {
+        if(sessionStorage.getItem('darkMode') === 'true'){
+            updateMode(sessionStorage.getItem('darkMode'));
+        }
+    });
+</script>
+
 <div id="sky">
+    <button class="toggle-button" on:click={switchMode}>
+        <span></span>
+    </button>
+
     <div>
         <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
@@ -32,6 +69,29 @@
         position: relative;
         background-color: #daf7dc;
         height: 20vw;
+    }
+
+    #sky.dark {
+        background-color: #333333;
+    }
+
+    .toggle-button:hover {
+        cursor: pointer;
+        background-color: #ff8800;
+        box-shadow: 6px 6px rgb(255, 153, 0);
+    }
+
+    .toggle-button{
+        position: absolute;
+        height: 20vw;
+        width: 20vw;
+        top: -12vw;
+        left: -10vw;
+        background-color: #ffd900;
+        border-radius: 50%;
+        border: none;
+        display: inline-block;
+        transition-duration: 0.4s;
     }
 
     .waves {
