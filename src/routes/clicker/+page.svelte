@@ -1,6 +1,7 @@
 <script>
 
     import { onMount } from 'svelte';
+    import {goto} from '$app/navigation';
 
     let startPopUP;
 
@@ -19,6 +20,8 @@
 
     let scorePerSeconds = 0;
 
+    let inversed = false;
+
 
     const upgrades = new Map();
     upgrades.set("double", {upgradeLevel: 0, upgradePrice: 0})
@@ -28,10 +31,25 @@
 
 
 
+
     function increment(){
         moveNageur();
         time= 5;
-        score += Math.pow(2, upgrades.get("double").upgradeLevel);
+        if(inversed) {
+            score -= Math.pow(2, upgrades.get("double").upgradeLevel);
+        }else {
+            score += Math.pow(2, upgrades.get("double").upgradeLevel);
+        }
+
+        // 1 chance sur 100 d'inverser pendant 20 secondes:
+
+        if((Math.random() * 100) < 1) {
+            inversed = true;
+            setTimeout(() => {
+                inversed = false;
+            }, 20000);
+        }
+
     }
 
     function buyUpgrade(upgradeName) {
@@ -107,6 +125,10 @@
         startPopUP.style.display="none";
     }
 
+    function redirectHome() {
+        goto("/")
+    }
+
 </script>
 
 
@@ -116,6 +138,7 @@
 
     <div class="stats">
         <a> {score} <img src="./clicker/points.png"> </a>
+        <a> Mode inversé : {inversed}</a>
         <a> {scorePerSeconds} <img src="./clicker/points.png">/ seconde </a>
     </div>
     <h1>Temps restants avant reset {time}</h1>
@@ -123,7 +146,7 @@
 
     <nav class="nav-area">
         <ul class="menu">
-            <li><a href="#">Accueil</a></li>
+            <li><a on:mouseover={redirectHome} href="#">Accueil</a></li>
             <li><a href="#">À propos</a>
                 <ul>
                     <li><a href="#">Paramètres</a></li>
@@ -187,17 +210,20 @@
 
 
 
-    <h3>Amélioration :</h3>
-    <div class="Ameliorations-buttons">
-        {#each upgrades.keys() as upgrade}
-            <button type="button" class="{upgrade}" on:click={() => buyUpgrade(upgrade)}>
-                {upgrade}
-            </button>
-        {/each}
-    </div>
-
     <div bind:this={startPopUP} class="pop-up">
-        <p>Présentation du jeu</p>
+        <h1>Présentation du jeu</h1>
+        <p>
+            Clicker en Dark Pattern
+            Objectif : rendre le clicker le plus injouable possible, tout en restant jouable <br>
+            - Prix des upgrades non connu <br>
+            - Aucune description sur le fonctionnement des upgrades <br>
+            - L'endroit ou cliquer qui se déplace en permanence <br>
+            - Un mode inversé qui décremente le score plutot que de l'incrementer <br>
+            - Les améliorations cachés dans des sous-menus interminable
+            - Un reset du score apres 5 secondes d'inactivités <br>
+            - Et quelques autres détails... <br>
+
+        </p>
         <button on:click={closePopUP}>close</button>
     </div>
 
@@ -327,7 +353,6 @@ div.pop-up {
     text-align: center;
     width: 50%;
     height: 40%;
-    margin-top: -20%;
     background-color: #DAF7DC;
 
 }
