@@ -31,6 +31,7 @@
         display: flex;
         justify-content: center;
         z-index: 100;
+        position: relative;
     }
     .container{
         display: flex;

@@ -43,7 +43,7 @@
     {/if}
 
     <button class:dark={darkMode} aria-label="Switch mode" on:click={switchMode}>
-        <span id="button"></span>
+        <span class="buttonMode"></span>
     </button>
 
     <div>
@@ -84,8 +84,8 @@
         background-color: #daf7dc;
         height: 20vw;
         transition: background-color 0.5s ease-in-out;
+        z-index: 5;
     }
-
     #sky.dark {
         background: #333333;
     }
@@ -96,8 +96,8 @@
         left: 0;
         width: 100vw;
         height: 100%;
-        z-index: 0;
         pointer-events: none;
+        z-index: 0;
     }
 
     .dot {
@@ -133,6 +133,7 @@
         display: inline-block;
         transition-duration: 1s;
         transition-timing-function: ease-in-out;
+        z-index: 1;
     }
 
     button:hover {
@@ -177,6 +178,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
+        z-index: 6;
     }
 
     .parallax > use {
