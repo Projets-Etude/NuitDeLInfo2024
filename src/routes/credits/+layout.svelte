@@ -2,16 +2,31 @@
     import { onMount } from "svelte";
 
     let darkMode = false;
+    let dots = [];
 
-    // Initialize darkMode from sessionStorage
+
     onMount(() => {
         darkMode = sessionStorage.getItem("darkMode") === "true";
+        generateDots();
     });
 
-    // Toggle dark mode
+
     function switchMode() {
         darkMode = !darkMode;
         sessionStorage.setItem("darkMode", darkMode);
+        generateDots();
+    }
+
+
+    function generateDots() {
+        dots = [];
+        const numberOfDots = 100;
+        for (let i = 0; i < numberOfDots; i++) {
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const size = Math.random() * 2 + 2;
+            dots.push({ x, y, size });
+        }
     }
 </script>
 
@@ -19,31 +34,56 @@
     <button class:dark={darkMode} aria-label="Switch mode" on:click={switchMode}>
         <span id="button"></span>
     </button>
+
+    {#if darkMode}
+    <div class="dots">
+        {#each dots as dot (dot.x)}
+            <div
+                    class="dot"
+                    style="top: {dot.y}%; left: {dot.x}%; width: {dot.size}px; height: {dot.size}px;"
+            ></div>
+        {/each}
+    </div>
+    {/if}
+
     <div>
         <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
             <defs>
                 <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
             </defs>
-            <g class="parallax">
-                <use xlink:href="#gentle-wave" x="48" y="-1" fill="#336699" />
-                <use xlink:href="#gentle-wave" x="48" y="2" fill="#86BBD8" />
-                <use xlink:href="#gentle-wave" x="48" y="7" fill="#2F4858" />
-            </g>
+            {#if darkMode}
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="-1" fill="#336699" />
+                    <use xlink:href="#gentle-wave" x="48" y="2" fill="#86BBD8" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#2F4858" />
+                </g>
+            {:else }
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="-1" fill="#336699" />
+                    <use xlink:href="#gentle-wave" x="48" y="2" fill="#2F4858" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#86BBD8" />
+                </g>
+            {/if}
         </svg>
     </div>
 </div>
 
 <div class="container">
-    <slot/>
+    <slot />
 </div>
 
 <style>
     :global(body) {
-        background: linear-gradient(180deg, #2F4858 6%, #0A1013 68%);
         height: 500vh;
         margin: 0;
         padding: 0;
+        background: linear-gradient(180deg, #2F4858 6%, #0A1013 68%);
+    }
+
+    :global(body).dark {
+        background: linear-gradient(180deg, #2F4858 6%, #0A1013 68%);
+
     }
 
     #sky {
@@ -55,10 +95,41 @@
     }
 
     #sky.dark {
-        background-color: #333333;
+        background: #333333;
     }
 
-    button{
+    .dots {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .dot {
+        position: absolute;
+        background-color: white;
+        border-radius: 50%;
+        opacity: 0.6;
+        animation: move-dots 10s infinite linear;
+        transition: transform 0.3s ease;
+    }
+
+    @keyframes move-dots {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.2);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    button {
         position: absolute;
         height: 20vw;
         width: 20vw;
