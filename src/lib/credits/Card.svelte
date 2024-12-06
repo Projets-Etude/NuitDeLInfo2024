@@ -9,12 +9,18 @@
     <img class="avatar" src={avatar} alt="{name}'s Avatar" />
     <h3>{name}</h3>
     <p>Contributions: {contributions}</p>
-    <button aria-label="Go to profile" on:click={() => window.open(`https://github.com/${name}`, "_blank")}>
+    <button id="viewProfile" aria-label="Go to profile" on:click={() => window.open(`https://github.com/${name}`, "_blank")}>
         View Profile
     </button>
 </div>
 
 <style>
+
+    #viewProfile{
+        background-color : #2F4858;
+        color: white;
+        border-radius: 5px;
+    }
     .card {
         background-color: white;
         border-radius: 10px;
