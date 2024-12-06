@@ -20,8 +20,11 @@
 
         const popSound = new Audio('./retroSea/pop.mp3');
         const bubbleSound = new Audio('./retroSea/bubbles.mp3');
-        bubbleSound.loop = true;
-        bubbleSound.play();
+        bubbleSound.loop = false;
+
+        setInterval(() => {
+            bubbleSound.play();
+        }, 9000);
 
         // Taille du monde global
         const worldWidth = 2000;
