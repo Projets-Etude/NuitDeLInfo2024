@@ -251,6 +251,11 @@
 
 :global(body){
     margin: 0;
+    background-color: #86bbd8;
+    background-image: url("https://www.transparenttextures.com/patterns/arches.png");
+}
+:global(footer){
+    transform: translate(0, 10px);
 }
 div.divide-click {
     position: absolute;
@@ -260,10 +265,10 @@ div.divide-click {
 }
 
 div.Clicker{
-    background-color: #86bbd8;
-    background-image: url("https://www.transparenttextures.com/patterns/arches.png");
     padding: 0;
     margin: 0;
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -312,7 +317,6 @@ button.nageur {
     background-color: rgba(255, 255, 255, 0);
     border: 0;
     transition: 0.2s;
-    z-index: 100;
 }
 
 button.nageur:hover {
@@ -333,6 +337,7 @@ a{
 }
 .nav-area{
     background: #262626;
+    z-index: 100;
 }
 .nav-area:after{
     content: '';
