@@ -2,6 +2,9 @@
 	"name": "hdfc",
 	"version": "0.0.1",
 	"type": "module",
+  	"engines": {
+    		"node": "20.x" // or "20.x" if you prefer Node 20
+  	},
 	"scripts": {
 		"dev": "vite dev",
 		"start": "vite dev",
