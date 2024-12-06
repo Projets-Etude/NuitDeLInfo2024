@@ -30,68 +30,53 @@
     }
 </script>
 
-<div id="sky" class:dark={darkMode}>
-    {#if darkMode}
-    <div class="dots">
-        {#each dots as dot (dot.x)}
-            <div
-                    class="dot"
-                    style="top: {dot.y}%; left: {dot.x}%; width: {dot.size}px; height: {dot.size}px;"
-            ></div>
-        {/each}
+<div class="wrapper" class:dark={darkMode}>
+    <div id="sky" class:dark={darkMode}>
+        {#if darkMode}
+            <div class="dots">
+                {#each dots as dot (dot.x)}
+                    <div
+                            class="dot"
+                            style="top: {dot.y}%; left: {dot.x}%; width: {dot.size}px; height: {dot.size}px;"
+                    ></div>
+                {/each}
+            </div>
+        {/if}
+
+        <button class:dark={darkMode} aria-label="Switch mode" on:click={switchMode}>
+            <span class="buttonMode"></span>
+        </button>
+
+        <div>
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                 viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax" class:dark={darkMode}>
+                    <use xlink:href="#gentle-wave" x="48" y="-1" />
+                    <use xlink:href="#gentle-wave" x="48" y="2" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" />
+                </g>
+            </svg>
+        </div>
     </div>
-    {/if}
 
-    <button class:dark={darkMode} aria-label="Switch mode" on:click={switchMode}>
-        <span class="buttonMode"></span>
-    </button>
-
-    <div>
-        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-             viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-            <defs>
-                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-            </defs>
-            <g class="parallax" class:dark={darkMode}>
-                <use xlink:href="#gentle-wave" x="48" y="-1" />
-                <use xlink:href="#gentle-wave" x="48" y="2" />
-                <use xlink:href="#gentle-wave" x="48" y="7" />
-            </g>
-        </svg>
+    <div class="container">
+        <slot />
     </div>
-</div>
-
-<div class="container">
-    <h1>Chef d'équipe</h1>
-    <h3>Hugo Desmons</h3><br>
-
-    <h1>Section accueil</h1>
-    <h3>Hugo Desmons</h3><br>
-
-    <h1>Jeu retroSea</h1>
-    <h3>Thomas Guislin</h3><br>
-
-    <h1>Jeu clicker</h1>
-    <h3>Hugo Debuyser</h3>
-    <h3>Matias Mennecart</h3><br>
-
-    <h1>Page crédits</h1>
-    <h3>Dylan Lecocq</h3>
-    <h3>Camille Okubo</h3><br>
-
-    <h1>Footer et header</h1>
-    <h3>Baptiste Collesson</h3><br>
-
-    <h1>Captcha</h1>
-    <h3>Antoine Pourtchie</h3>
-
-    <slot />
 </div>
 
 <style>
-    :global(body) {
-        margin: 0;
-        padding: 0;
+    .wrapper {
+        background: linear-gradient(180deg, #86BBD8 30%, #0A1013 90%);
+        padding-bottom: 50%;
+        transition-duration: 1s;
+    }
+
+    .wrapper.dark {
+        transition: ease 0.4s;
+        background: linear-gradient(180deg, #2F4858 30%, #0A1013 90%);
     }
 
     #sky {
@@ -102,6 +87,7 @@
         transition: background-color 0.5s ease-in-out;
         z-index: 5;
     }
+
     #sky.dark {
         background: #333333;
     }
@@ -190,11 +176,10 @@
         width: 80vw;
         height: 80vh;
         position: absolute;
-        top: 40vw;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
-        color: white;
         z-index: 6;
     }
 
