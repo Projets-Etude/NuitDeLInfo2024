@@ -31,10 +31,6 @@
 </script>
 
 <div id="sky" class:dark={darkMode}>
-    <button class:dark={darkMode} aria-label="Switch mode" on:click={switchMode}>
-        <span id="button"></span>
-    </button>
-
     {#if darkMode}
     <div class="dots">
         {#each dots as dot (dot.x)}
@@ -46,25 +42,21 @@
     </div>
     {/if}
 
+    <button class:dark={darkMode} aria-label="Switch mode" on:click={switchMode}>
+        <span id="button"></span>
+    </button>
+
     <div>
         <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
             <defs>
                 <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
             </defs>
-            {#if darkMode}
-                <g class="parallax">
-                    <use xlink:href="#gentle-wave" x="48" y="-1" fill="#336699" />
-                    <use xlink:href="#gentle-wave" x="48" y="2" fill="#86BBD8" />
-                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#2F4858" />
-                </g>
-            {:else }
-                <g class="parallax">
-                    <use xlink:href="#gentle-wave" x="48" y="-1" fill="#336699" />
-                    <use xlink:href="#gentle-wave" x="48" y="2" fill="#2F4858" />
-                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#86BBD8" />
-                </g>
-            {/if}
+            <g class="parallax" class:dark={darkMode}>
+                <use xlink:href="#gentle-wave" x="48" y="-1" />
+                <use xlink:href="#gentle-wave" x="48" y="2" />
+                <use xlink:href="#gentle-wave" x="48" y="7" />
+            </g>
         </svg>
     </div>
 </div>
@@ -78,11 +70,11 @@
         height: 500vh;
         margin: 0;
         padding: 0;
-        background: linear-gradient(180deg, #2F4858 6%, #0A1013 68%);
+        background: linear-gradient(180deg, #2F4858 8%, #0A1013 68%);
     }
 
     :global(body).dark {
-        background: linear-gradient(180deg, #2F4858 6%, #0A1013 68%);
+        background: linear-gradient(180deg, #86BBD8 8%, #0A1013 68%);
 
     }
 
@@ -139,7 +131,8 @@
         border-radius: 50%;
         border: none;
         display: inline-block;
-        transition-duration: 0.4s;
+        transition-duration: 1s;
+        transition-timing-function: ease-in-out;
     }
 
     button:hover {
@@ -158,7 +151,8 @@
         border-radius: 50%;
         border: none;
         display: inline-block;
-        transition-duration: 0.4s;
+        transition-duration: 1s;
+        transition-timing-function: ease-in-out;
     }
 
     #sky.dark button:hover {
@@ -192,15 +186,33 @@
     .parallax > use:nth-child(1) {
         animation-delay: -30s;
         animation-duration: 50s;
+        transition-duration: 0.4s;
+        fill:#2F4858;
     }
 
     .parallax > use:nth-child(2) {
         animation-delay: -10s;
         animation-duration: 30s;
+        transition-duration: 0.4s;
+        fill:#336699;
     }
 
     .parallax > use:nth-child(3) {
         animation-duration: 20s;
+        transition-duration: 0.4s;
+        fill:#86BBD8;
+    }
+
+    .parallax.dark > use:nth-child(1){
+        fill:#336699;
+    }
+
+    .parallax.dark > use:nth-child(2){
+        fill:#86BBD8;
+    }
+
+    .parallax.dark > use:nth-child(3){
+        fill:#2F4858;
     }
 
     @keyframes move-forever {
