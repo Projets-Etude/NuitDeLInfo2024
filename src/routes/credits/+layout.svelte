@@ -245,11 +245,14 @@
         }
 
         #sky.dark button {
-            height: 25vh;
+            width: 20vh;
+            height: 20vh;
+            left: 85vw;
         }
 
         .wrapper {
             padding-bottom: 100vh;
+            overflow: hidden;
         }
 
         .container {
@@ -260,7 +263,13 @@
 
     @media (max-height: 700px) {
         .wrapper {
+            overflow: hidden;
             padding-bottom: 150vh;
+        }
+
+        button {
+            height: 100px;
+            width: 100px;
         }
     }
 </style>
