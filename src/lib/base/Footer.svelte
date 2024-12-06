@@ -11,7 +11,6 @@
     footer{
         background-color: #003C5A;
         height: 100px;
-        width: 100vw;
         background-image: radial-gradient(#003C5A, #00283C);
     }
     footer .gradient{

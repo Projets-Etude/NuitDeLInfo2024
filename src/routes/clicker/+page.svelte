@@ -249,12 +249,6 @@
 </div>
 
 <style>
-    :global(body){
-        margin: 0;
-    }
-    :global(footer){
-        transform: scale(1.2);
-    }
     div.divide-click {
         position: absolute;
         width: inherit;
