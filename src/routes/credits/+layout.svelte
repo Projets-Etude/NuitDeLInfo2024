@@ -67,7 +67,6 @@
 
 <style>
     :global(body) {
-        height: 500vh;
         margin: 0;
         padding: 0;
     }
