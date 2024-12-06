@@ -17,11 +17,11 @@
 
 <div id="sky" class:dark={darkMode}>
     {#if !darkMode}
-    <button class="sun" on:click={switchMode}>
+    <button class="sun" aria-label="Switch to dark mode" on:click={switchMode}>
         <span></span>
     </button>
     {:else }
-    <button class="moon" on:click={switchMode}>
+    <button class="moon" aria-label="Switch to light mode" on:click={switchMode}>
         <span></span>
     </button>
     {/if}
