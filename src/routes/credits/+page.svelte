@@ -1,7 +1,6 @@
 <script>
     import Card from "$lib/credits/Card.svelte";
     import { onDestroy, onMount } from "svelte";
-    import { Octokit } from "@octokit/core";
     import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, BarController } from 'chart.js';
 
     Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, BarController);
@@ -9,12 +8,9 @@
     let darkMode = false;
     let chart;
     let contributors = [];
-    let punchCardData = [];
     const owner = "BaptisteCls";
     const repo = "HDFC";
     const token = "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";
-
-    const octokit = new Octokit({ auth: token });
 
     async function fetchContributors() {
         const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contributors`, {
@@ -27,34 +23,51 @@
         }
     }
 
-    async function fetchCommitPunchCard() {
-        try {
-            const response = await octokit.request('GET /repos/{owner}/{repo}/stats/punch_card', {
-                owner,
-                repo,
-                headers: { 'X-GitHub-Api-Version': '2022-11-28' }
+    async function fetchCommits() {
+        const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits?since=2024-12-05T16:00:00Z&until=2024-12-06T09:00:00Z`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const commits = await response.json();
+            const hourlyCommits = new Array(24).fill(0);
+
+            commits.forEach(commit => {
+                const commitDate = new Date(commit.commit.author.date);
+                const hour = commitDate.getUTCHours();
+                hourlyCommits[hour] += 1;
             });
 
-            punchCardData = response.data;
-            renderChart();
-        } catch (error) {
-            console.error("Error fetching punch card:", error);
+            renderChart(hourlyCommits);
+        } else {
+            console.error("Failed to fetch commits:", response.status);
         }
     }
 
-    function renderChart() {
+    function renderChart(hourlyCommits) {
         const ctx = document.getElementById("commits-chart").getContext("2d");
-        const hourlyCommits = new Array(24).fill(0);
-        punchCardData.forEach(([day, hour, commits]) => {
-            hourlyCommits[hour] += commits;
-        });
+
+        if (chart) {
+            chart.destroy();
+        }
+
+        const labels = [
+            '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00',
+            '00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00',
+            '08:00', '09:00'
+        ];
+
+        const adjustedCommits = hourlyCommits.slice(16).concat(hourlyCommits.slice(0, 10));
+
         chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+                labels: labels,
                 datasets: [{
                     label: 'Commits par heure',
-                    data: hourlyCommits,
+                    data: adjustedCommits,
                     backgroundColor: darkMode ? 'rgba(240, 240, 240, 0.6)' : 'rgba(51, 102, 153, 0.6)',
                     borderColor: darkMode ? 'rgba(240, 240, 240, 1)' : 'rgba(51, 102, 153, 1)',
                     borderWidth: 1
@@ -67,6 +80,9 @@
                             display: true,
                             text: 'Heure',
                             color: darkMode ? 'white' : 'black'
+                        },
+                        ticks: {
+                            stepSize: 1
                         }
                     },
                     y: {
@@ -91,7 +107,7 @@
 
     onMount(() => {
         fetchContributors();
-        fetchCommitPunchCard();
+        fetchCommits();
     });
 
     onDestroy(() => {
@@ -123,6 +139,10 @@
         background-color: #f4f4f4;
         color: #333;
         transition: background-color 0.3s, color 0.3s;
+    }
+
+    h2 {
+        color: white;
     }
 
     .contributors-container {
