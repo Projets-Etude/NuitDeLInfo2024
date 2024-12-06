@@ -226,7 +226,7 @@
             - Et quelques autres détails... <br>
 
         </p>
-        <button on:click={closePopUP}>close</button>
+        <button on:click={closePopUP}>FERMER</button>
     </div>
 
 </div>
@@ -371,12 +371,17 @@ div.pop-up {
     width: 50%;
     height: 40%;
     background-color: #DAF7DC;
+    border-radius: 0.5rem;
+    border: 0.4rem solid;
+    border-color: #2F4858;
 
 }
 
 div.pop-up button {
     background-color: #2F4858;
     color: white;
+    width: 30%;
+    height: 10%;
     border-radius: 30px;
 }
 
