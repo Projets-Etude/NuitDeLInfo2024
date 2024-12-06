@@ -26,12 +26,12 @@
         <span><i class="fa-solid fa-ship"></i></span>
       </div>
       <ul>
-        <li><a href="#"><i class="fa-solid fa-ship"></i></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
+        <li><a href="https://www.raceforwater.org/en/"><i class="fa-solid fa-ship"></i></a></li>
+        <li><a href="/"></a></li>
+        <li><a href="/retroSea"></a></li>
+        <li><a href="/clicker"></a></li>
+        <li><a href="/credit"></a></li>
+        <li><a href="/captcha"></a></li>
       </ul>
     </div>
 </nav>
@@ -168,7 +168,10 @@ nav{
 }
 
 .circle-menu li:nth-child(2) a {
-    background-image: url('https://htmlacademy.ru/assets/icons/aperture-4x.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 25% 25%;
+    background-image: url('$lib/house.png');
 }
 .circle-menu li:nth-child(3) a {
     background-image: url('https://htmlacademy.ru/assets/icons/audio-4x.png');

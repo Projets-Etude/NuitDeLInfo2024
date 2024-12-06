@@ -11,12 +11,29 @@
         const coralImage = new Image();
         coralImage.src = './src/routes/retroSea/coral.jpg'; // Corail pixelisé
 
-// Positions des éléments
-        const elements = [
-            { x: 100, y: 200, type: 'fish', message: 'Les poissons respirent dans l’eau comme nous respirons dans l’air.' },
-            { x: 400, y: 300, type: 'coral', message: 'Les coraux, comme les forêts, absorbent le CO2.' },
-            { x: 700, y: 100, type: 'fish', message: 'Certains poissons migrent comme les humains !' }
+// Liste d'anecdotes
+        const anecdotes = [
+            'Les poissons clowns vivent en symbiose avec les anémones.',
+            'Les coraux sont des animaux, pas des plantes !',
+            'Certains poissons utilisent des outils, comme les humains.',
+            'Les récifs coralliens abritent 25% de la vie marine.',
+            'Les requins existent depuis plus de 400 millions d’années.',
+            'Les baleines chantent pour communiquer sur des centaines de kilomètres.',
+            'Certains poissons changent de sexe pour s’adapter à leur environnement.',
+            'Les coraux protègent les côtes des vagues et des tempêtes.',
+            'La méduse immortelle peut rajeunir indéfiniment.',
+            'Les dauphins sont aussi intelligents qu’un enfant de 3 ans.'
         ];
+
+// Générer plusieurs éléments aléatoires
+        const elements = [];
+        for (let i = 0; i < 20; i++) {
+            const type = Math.random() > 0.5 ? 'fish' : 'coral'; // Aléatoire entre poisson et corail
+            const x = Math.random() * 2000; // Largeur virtuelle de l’océan
+            const y = Math.random() * 1500; // Hauteur virtuelle de l’océan
+            const message = anecdotes[Math.floor(Math.random() * anecdotes.length)]; // Anecdote aléatoire
+            elements.push({ x, y, type, message });
+        }
 
 // Variables pour le défilement
         let offsetX = 0;
@@ -36,7 +53,7 @@
 
 // Gérer les déplacements avec les flèches
         window.addEventListener('keydown', (e) => {
-            const speed = 10; // Vitesse du déplacement
+            const speed = 20; // Vitesse du déplacement
             switch (e.key) {
                 case 'ArrowUp':
                     offsetY -= speed;
@@ -62,7 +79,7 @@
 
             elements.forEach((el) => {
                 if (x >= el.x && x <= el.x + 64 && y >= el.y && y <= el.y + 64) {
-                    alert(el.message); // Afficher le message lié à l'élément
+                    alert(el.message); // Afficher l'anecdote
                 }
             });
         });
@@ -73,7 +90,7 @@
             new Promise((resolve) => (coralImage.onload = resolve))
         ]).then(() => {
             draw(); // Dessiner une fois les images prêtes
-            console.log("Images chargées, navigation activée !");
+            console.log("Images chargées, jeu démarré avec plein de créatures !");
         });
     })
 </script>
