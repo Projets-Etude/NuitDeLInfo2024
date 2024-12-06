@@ -72,6 +72,7 @@
         overflow-x: hidden;
     }
     .wrapper {
+        font-family: 'Inter', sans-serif;
         background: linear-gradient(180deg, #86BBD8 40%, #0A1013 90%);
         width: 100vw;
         height: 150vh;
@@ -128,6 +129,7 @@
     }
 
     button {
+
         position: absolute;
         height: 20vw;
         width: 20vw;
