@@ -1,41 +1,30 @@
 <script>
-    import {onMount} from "svelte";
+    import { onMount } from "svelte";
 
-    // Initialisation au chargement de la page
+    let darkMode = false;
+
+    // Initialize darkMode from sessionStorage
     onMount(() => {
-        const darkMode = sessionStorage.getItem('darkMode') === 'true';
-        updateMode(darkMode);
+        darkMode = sessionStorage.getItem("darkMode") === "true";
     });
 
-    // Bascule entre le mode clair et sombre
+    // Toggle dark mode
     function switchMode() {
-        const darkMode = sessionStorage.getItem('darkMode') === 'true';
-        sessionStorage.setItem('darkMode', !darkMode); // Inverse l'état actuel
-        updateMode(!darkMode);
+        darkMode = !darkMode;
+        sessionStorage.setItem("darkMode", darkMode);
     }
-
-    // Met à jour l'apparence en fonction du mode
-    function updateMode(isDark) {
-        const sky = document.getElementById('sky');
-        if (isDark) {
-            sky.classList.add('dark');
-        } else {
-            sky.classList.remove('dark');
-        }
-    }
-
-    onMount(() => {
-        if(sessionStorage.getItem('darkMode') === 'true'){
-            updateMode(sessionStorage.getItem('darkMode'));
-        }
-    });
 </script>
 
-<div id="sky">
-    <button class="toggle-button" on:click={switchMode}>
+<div id="sky" class:dark={darkMode}>
+    {#if !darkMode}
+    <button class="sun" on:click={switchMode}>
         <span></span>
     </button>
-
+    {:else }
+    <button class="moon" on:click={switchMode}>
+        <span></span>
+    </button>
+    {/if}
     <div>
         <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
@@ -57,31 +46,48 @@
 
 <style>
     :global(body) {
-        height: 500vh;
-        width: 1440px;
-        background:  linear-gradient(180deg, #2F4858 10%, #0A1013 68%);
         margin: 0;
         padding: 0;
     }
 
-    #sky{
+    #sky {
         width: 100vw;
         position: relative;
-        background-color: #daf7dc;
+        background-color: #daf7dc; /* Light mode color */
         height: 20vw;
+        transition: background-color 0.3s ease-in-out;
     }
 
     #sky.dark {
-        background-color: #333333;
+        background-color: #333333; /* Dark mode color */
     }
 
-    .toggle-button:hover {
+    .moon {
+        position: absolute;
+        height: 20vw;
+        width: 20vw;
+        top: -12vw;
+        left: 90vw;
+        background-color: white;
+        border-radius: 50%;
+        border: none;
+        display: inline-block;
+        transition-duration: 0.4s;
+    }
+
+    .moon:hover {
+        cursor: pointer;
+        background-color: lightgrey;
+        box-shadow: -6px 6px darkgrey;
+    }
+
+    .sun:hover {
         cursor: pointer;
         background-color: #ff8800;
         box-shadow: 6px 6px rgb(255, 153, 0);
     }
 
-    .toggle-button{
+    .sun{
         position: absolute;
         height: 20vw;
         width: 20vw;
@@ -98,8 +104,7 @@
         bottom: 0;
         position: absolute;
         width: 100%;
-        height:10vw;
-        margin-bottom:-7px;
+        height: 10vw;
     }
 
     .container {
@@ -114,27 +119,32 @@
     }
 
     .parallax > use {
-        animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
+        animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
     }
+
     .parallax > use:nth-child(1) {
         animation-delay: -30s;
         animation-duration: 50s;
     }
+
     .parallax > use:nth-child(2) {
         animation-delay: -10s;
         animation-duration: 30s;
     }
+
     .parallax > use:nth-child(3) {
         animation-duration: 20s;
     }
+
     @keyframes move-forever {
         0% {
-            transform: translate3d(-90px,0,0);
+            transform: translate3d(-90px, 0, 0);
         }
         100% {
-            transform: translate3d(85px,0,0);
+            transform: translate3d(85px, 0, 0);
         }
     }
+
     @media (max-width: 768px) {
         .container {
             display: flex;
