@@ -179,13 +179,13 @@
 
     .chart-container {
         text-align: center;
-        margin: auto;
-        width: 50vw;
+        width: 80vw;
         min-width: 200px;
     }
 
     canvas {
         background-color: #fff;
         border-radius: 10px;
+        height: auto;
     }
 </style>

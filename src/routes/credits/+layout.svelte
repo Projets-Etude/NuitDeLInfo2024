@@ -69,8 +69,9 @@
 
 <style>
     .wrapper {
-        background: linear-gradient(180deg, #86BBD8 30%, #0A1013 90%);
-        padding-bottom: 50%;
+        background: linear-gradient(180deg, #86BBD8 40%, #0A1013 90%);
+        width: 100vw;
+        height: 150vh;
         transition-duration: 1s;
     }
 
@@ -229,6 +230,23 @@
     }
 
     @media (max-width: 768px) {
+        button {
+            width: 30vw;
+            height: 30vw;
+        }
+
+        #sky {
+            height: 25vh;
+        }
+
+        #sky.dark button {
+            height: 25vh;
+        }
+
+        .wrapper {
+            padding-bottom: 100vh;
+        }
+
         .container {
             display: flex;
             flex-direction: column;
