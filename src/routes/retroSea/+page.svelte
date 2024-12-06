@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
 
     let page;
+    let currentTimeout = null;
     onMount(() => {
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -13,6 +14,14 @@
         coralImage.src = './src/routes/retroSea/coral.png'; // Corail personnalisé
         const joueurImage = new Image();
         joueurImage.src = './src/routes/retroSea/joueur.png';
+        const deepFishImage = new Image();
+        deepFishImage.src = './src/routes/retroSea/deepFish.png';
+
+
+        const popSound = new Audio('./src/routes/retroSea/pop.mp3');
+        const bubbleSound = new Audio('./src/routes/retroSea/bubbles.mp3');
+        bubbleSound.loop = true;
+        bubbleSound.play();
 
         // Taille du monde global
         const worldWidth = 2000;
@@ -23,10 +32,13 @@
         const speed = 15; // Vitesse du joueur
         const fishList = [];
         const coralList = [];
+        const deepFishList = []; // Liste pour les poissons de profondeur
         const bubbleList = []; // Liste des bulles
         const numFish = 40; // Nombre de poissons
         const numCorals = 40; // Nombre de coraux
         const numBubbles = 40; // Nombre de bulles
+        const numDeepFish = 20; // Nombre de poissons de profondeur
+        const deepLayerThreshold = 1500; // La couche Y à partir de laquelle les nouveaux poissons apparaissent
 
         // Position de la "caméra" (pour afficher une portion du monde sur le canvas)
         let camera = { x: 0, y: 0 };
@@ -58,6 +70,18 @@
             }
         }
 
+        function initializeDeepFish() {
+            for (let i = 0; i < numDeepFish; i++) {
+                deepFishList.push({
+                    x: Math.random() * worldWidth, // Position aléatoire en largeur
+                    y: deepLayerThreshold + Math.random() * (worldHeight - deepLayerThreshold), // Position Y basse
+                    width: 64,
+                    height: 64
+                });
+            }
+        }
+
+
         // Fonction pour initialiser les bulles
         function initializeBubbles() {
             for (let i = 0; i < numBubbles; i++) {
@@ -76,6 +100,12 @@
             const screenX = fish.x - camera.x; // Position relative à la caméra
             const screenY = fish.y - camera.y;
             ctx.drawImage(fishImage, screenX, screenY, fish.width, fish.height); // Dessiner chaque poisson
+        }
+
+        function drawDeepFish(fish) {
+            const screenX = fish.x - camera.x; // Position relative à la caméra
+            const screenY = fish.y - camera.y;
+            ctx.drawImage(deepFishImage, screenX, screenY, fish.width, fish.height); // Dessiner le poisson de profondeur
         }
 
         // Fonction pour dessiner le joueur avec un emoji sous-marin
@@ -105,7 +135,14 @@
         // Fonction pour dessiner les bulles
         function drawBubbles() {
             bubbleList.forEach(bubble => {
-                // Les bulles ne sont pas influencées par la caméra
+                // Ajouter un léger décalage horizontal en fonction de la direction du joueur
+                if (playerDirection === 'left') {
+                    bubble.x += 3; // Déplacement des bulles vers la droite
+                } else if (playerDirection === 'right') {
+                    bubble.x -= 3; // Déplacement des bulles vers la gauche
+                }
+
+                // Les bulles ne sont pas influencées par la caméra pour le moment
                 const screenX = bubble.x;
                 const screenY = bubble.y;
 
@@ -117,8 +154,17 @@
 
                 // Faire monter la bulle
                 bubble.y -= bubble.speed;
+
+                // Réinitialiser les bulles qui sortent du cadre
                 if (bubble.y + bubble.radius < 0) {
-                    bubble.y = canvas.height + bubble.radius; // Réinitialiser la bulle
+                    bubble.y = canvas.height + bubble.radius; // Réinitialiser la position verticale
+                }
+
+                // Réinitialiser les bulles qui sortent horizontalement du cadre
+                if (bubble.x + bubble.radius < 0) {
+                    bubble.x = canvas.width + bubble.radius;
+                } else if (bubble.x - bubble.radius > canvas.width) {
+                    bubble.x = -bubble.radius;
                 }
             });
         }
@@ -171,6 +217,11 @@
 
             // Dessiner tous les coraux
             coralList.forEach(drawCoral);
+
+            // Dessiner les poissons de profondeur uniquement si le joueur est en dessous de la couche
+            if (player.y+400 >= deepLayerThreshold) {
+                deepFishList.forEach(drawDeepFish);
+            }
 
             // Dessiner le joueur
             drawPlayer();
@@ -242,15 +293,59 @@
             return { name, anecdote };
         }
 
-        // Fonction pour mettre à jour le contenu de la "fenêtre vierge"
         function openEmptyWindow(x, y) {
             const infoWindow = document.getElementById('infoWindow');
             const { name, anecdote } = getRandomNameAndAnecdote();
-            infoWindow.textContent = '${name}\n${anecdote}';
-            infoWindow.innerHTML = '' + name  +': <br> ' +anecdote;  // Afficher un message générique ou une autre info
-            infoWindow.style.left = `${x + 20}px`;  // Positionner la fenêtre à droite du clic
-            infoWindow.style.top = `${y + 20}px`;   // Positionner la fenêtre en dessous du clic
-            infoWindow.style.display = 'block';      // Rendre la fenêtre visible
+
+            // Mettre à jour le contenu de la fenêtre
+            infoWindow.textContent = `${name}\n${anecdote}`;
+            infoWindow.innerHTML = `${name}: <br>${anecdote}`;  // Afficher un message générique ou une autre info
+
+            // Récupérer la largeur et la hauteur de la fenêtre
+            const windowWidth = infoWindow.offsetWidth;
+            const windowHeight = infoWindow.offsetHeight;
+
+            // Calculer la position pour centrer la fenêtre sur le curseur
+            let posX = x - windowWidth / 2;  // Centrer horizontalement
+            let posY = y - windowHeight / 2; // Centrer verticalement
+
+            // Ajuster la position X pour éviter que la fenêtre dépasse à gauche
+            if (posX < 0) {
+                posX = 0; // Si elle est trop à gauche, la positionner à 0
+            }
+
+            // Ajuster la position X pour éviter que la fenêtre dépasse à droite
+            if (posX + windowWidth > window.innerWidth) {
+                posX = window.innerWidth - windowWidth; // Si elle dépasse à droite, la positionner pour qu'elle ne dépasse pas
+            }
+
+            // Ajuster la position Y pour éviter que la fenêtre dépasse en haut
+            if (posY < 0) {
+                posY = 0; // Si elle est trop haute, la positionner en haut de l'écran
+            }
+
+            // Ajuster la position Y pour éviter que la fenêtre dépasse en bas
+            if (posY + windowHeight > window.innerHeight) {
+                posY = window.innerHeight - windowHeight; // Si elle dépasse en bas, la positionner pour qu'elle ne dépasse pas
+            }
+
+            // Appliquer la nouvelle position à la fenêtre
+            infoWindow.style.left = `${posX + 100}px`;
+            infoWindow.style.top = `${posY + 100}px`;
+            infoWindow.style.display = 'block';  // Rendre la fenêtre visible
+
+            // Si une fenêtre est déjà ouverte, annuler le précédent setTimeout
+            if (currentTimeout) {
+                clearTimeout(currentTimeout);
+            }
+
+            // Fermer la fenêtre après 5 secondes
+            currentTimeout = setTimeout(() => {
+                infoWindow.style.display = 'none'; // Masquer la fenêtre après 5 secondes
+            }, 5000);
+
+            // Jouer le son
+            popSound.play();
         }
 
         // Gestionnaire de clics sur le canvas
@@ -273,6 +368,13 @@
                     openEmptyWindow(mouseX - camera.x, mouseY - camera.y);  // Ouvrir la fenêtre vide au clic sur un corail
                 }
             });
+
+            deepFishList.forEach(deepFish => {
+                if (mouseX >= deepFish.x && mouseX <= deepFish.x + deepFish.width &&
+                    mouseY >= deepFish.y && mouseY <= deepFish.y + deepFish.height) {
+                    openEmptyWindow(mouseX - camera.x, mouseY - camera.y);  // Ouvrir la fenêtre vide au clic sur un poisson
+                }
+            })
         });
         // Gestionnaire pour changer le curseur au survol
         canvas.addEventListener('mousemove', function(event) {
@@ -297,6 +399,13 @@
                 }
             });
 
+            deepFishList.forEach(deepFish => {
+                if (mouseX >= deepFish.x && mouseX <= deepFish.x + deepFish.width &&
+                    mouseY >= deepFish.y && mouseY <= deepFish.y + deepFish.height) {
+                    cursorOverElement = true;
+                }
+            })
+
             // Modifier le curseur
             if (cursorOverElement) {
                 canvas.style.cursor = 'zoom-in'; // Curseur en forme de loupe
@@ -308,6 +417,7 @@
         // Initialisation
         initializeFish();
         initializeCorals();
+        initializeDeepFish();
         initializeBubbles();
 
         // Écoute des événements clavier
@@ -328,7 +438,6 @@
             draw();  // Dessiner tout
             requestAnimationFrame(animate);  // Continuer l'animation
         }
-
         animate(); // Démarrer l'animation
     });
 </script>
