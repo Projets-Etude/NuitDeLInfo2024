@@ -68,14 +68,11 @@
 <style>
     :global(body) {
         height: 500vh;
+        width: 100vh;
+        overflow-x: hidden;
         margin: 0;
         padding: 0;
-        background: linear-gradient(180deg, #2F4858 8%, #0A1013 68%);
-    }
-
-    :global(body).dark {
         background: linear-gradient(180deg, #86BBD8 8%, #0A1013 68%);
-
     }
 
     #sky {
@@ -173,7 +170,7 @@
         width: 80vw;
         height: 80vh;
         position: absolute;
-        top: 50%;
+        top: 30vw;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
