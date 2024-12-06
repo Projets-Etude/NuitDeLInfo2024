@@ -26,7 +26,6 @@
 <style>
     header{
         background-color: #336699;
-        width: 100vw;
         height: 70px;
         display: flex;
         justify-content: center;

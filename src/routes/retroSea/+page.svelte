@@ -465,8 +465,6 @@
 
 
 
-
-
     main{
         background-image: url("https://i.pinimg.com/736x/43/e6/03/43e60317c7de579238530ad14b3777b9.jpg");
         background-size: cover;
@@ -486,6 +484,7 @@
     .section_instructions{
         padding: 10px;
     }
+
 
     canvas {
         display: flex;
