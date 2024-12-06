@@ -26,11 +26,12 @@
 <style>
     header{
         background-color: #336699;
-        width: 100%;
+        width: 100vw;
         height: 70px;
         display: flex;
         justify-content: center;
         z-index: 100;
+        position: relative;
     }
     .container{
         display: flex;
