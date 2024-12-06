@@ -2,6 +2,7 @@
     import Card from "$lib/credits/Card.svelte";
     import { onDestroy, onMount } from "svelte";
     import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, BarController } from 'chart.js';
+    import { Octokit } from "@octokit/core";
 
     Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, BarController);
 
@@ -12,38 +13,62 @@
     const repo = "HDFC";
     const token = "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";
 
+    const octokit = new Octokit({
+        auth: token
+    })
+
     async function fetchContributors() {
-        const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contributors`, {
-            headers: { "Authorization": `Bearer ${token}` }
-        });
-        if (response.ok) {
-            contributors = await response.json();
-        } else {
-            console.error("Failed to fetch contributors:", response.status);
+        try {
+            const response = await octokit.request('GET /repos/{owner}/{repo}/contributors', {
+                owner: 'BaptisteCls',
+                repo: 'HDFC'
+            });
+
+            console.log("res received");
+            console.log(response.data);
+            contributors = response.data;
+            console.log(contributors.length);
+
+        } catch (error) {
+            console.error("Failed to fetch contributors:", error);
         }
     }
 
     async function fetchCommits() {
-        const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits?since=2024-12-05T16:00:00Z&until=2024-12-06T09:00:00Z`, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
+        let page = 1;
+        let commits = [];
+        let hasNextPage = true;
 
-        if (response.ok) {
-            const commits = await response.json();
-            const hourlyCommits = new Array(24).fill(0);
-
-            commits.forEach(commit => {
-                const commitDate = new Date(commit.commit.author.date);
-                const hour = commitDate.getUTCHours();
-                hourlyCommits[hour] += 1;
+        while (hasNextPage) {
+            const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits?since=2024-12-05T16:00:00Z&until=2024-12-06T09:00:00Z&page=${page}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
             });
 
-            renderChart(hourlyCommits);
-        } else {
-            console.error("Failed to fetch commits:", response.status);
+            if (response.ok) {
+                const data = await response.json();
+                commits = commits.concat(data);
+
+                if (data.length < 30) {
+                    hasNextPage = false;
+                } else {
+                    page++;
+                }
+            } else {
+                console.error("Failed to fetch commits:", response.status);
+                hasNextPage = false;
+            }
         }
+
+        const hourlyCommits = new Array(24).fill(0);
+        commits.forEach(commit => {
+            const commitDate = new Date(commit.commit.author.date);
+            const hour = commitDate.getUTCHours();
+            hourlyCommits[hour] += 1;
+        });
+
+        renderChart(hourlyCommits);
     }
 
     function renderChart(hourlyCommits) {
