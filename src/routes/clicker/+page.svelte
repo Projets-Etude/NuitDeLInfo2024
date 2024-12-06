@@ -120,6 +120,56 @@
     </div>
     <h1>Temps restants avant reset {time}</h1>
 
+
+    <nav class="nav-area">
+        <ul class="menu">
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#">À propos</a>
+                <ul>
+                    <li><a href="#">Paramètres</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Améliorations</a>
+                </ul>
+            </li>
+            <li><a href="#">Services</a>
+                <ul>
+                    <li><a href="#">Paramètres</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Améliorations</a>
+                        <ul>
+                            <li><a href="#">Upgrade</a></li>
+                            <li><a href="#">Mise à jour</a></li>
+                            <li><a href="#">Progression</a></li>
+                            <li><a href="#">Bonification</a>
+                                <ul>
+                                    {#each upgrades.keys() as upgrade}
+                                        <li><a href="#">{upgrade}</a>
+                                            <ul>
+                                                <li><a href="#">Appliquer</a></li>
+                                                <li><a href="#">Valider</a></li>
+                                                <li><a href="#">Confirmer</a></li>
+                                                <li><a href="#" on:click={() => buyUpgrade(upgrade)}>Confirmer</a></li>
+                                            </ul>
+                                        </li>
+                                    {/each}
+                                </ul>
+                            </li>
+                            <li><a href="#">Correction</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Service Five</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Clicker</a>
+                <ul>
+                    <li><a href="#">Paramètres</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Améliorations</a>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
     <div class="clicker-main">
         <div bind:this={clickerContainer} class="clicker-img">
             <button bind:this={nageur} style="left: {nageurLeft}px; top: {nageurTop}px;" type="button" class="nageur" on:click={increment}>
@@ -173,22 +223,6 @@ div.clicker-main{
     justify-content: center;
 }
 
-div.Ameliorations-buttons{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-}
-
-div.Ameliorations-buttons>button{
-    padding: 0.5rem;
-    border: none;
-    border-radius: 0.2rem;
-    background-color: #2f4858;
-    color: white;
-}
-
 div.clicker-img {
     width: 75vw;
     height: 30vw;
@@ -198,7 +232,7 @@ div.clicker-img {
     background-image: url("$lib/clicker/ocean.avif");
     border: 0.3rem solid #336699;
     border-radius: 0.5rem;
-    margin-bottom: 40rem;
+    margin-bottom: 5rem;
 }
 
 button.nageur {
@@ -226,6 +260,67 @@ div.buy-upgrade-success {
     display: none;
 }
 
+a{
+    font-size: 12px;
+    text-transform: uppercase;
+}
+.nav-area{
+    background: #262626;
+}
+.nav-area:after{
+    content: '';
+    clear: both;
+    display: block;
+}
+.nav-area ul{
+    list-style: none;
+    margin: 0;
+}
+.menu {
+    width: 500px;
+    margin: 0 auto !important;
+}
+.nav-area > ul > li{
+    float: left;
+    position: relative;
+}
+.nav-area ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 15px 20px;
+    display: block;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+.nav-area ul li:hover a{
+    background: #34495e;
+}
+
+.nav-area ul ul {
+    position: absolute;
+    padding: 0;
+    min-width: 160px;
+    display: none;
+    top: 100%;
+    left: 0;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.5);
+}
+.nav-area ul li:hover > ul{
+    display: block;
+}
+.nav-area ul ul li:hover a{
+    background: #262626;
+}
+.nav-area ul ul li{
+    position: relative;
+}
+.nav-area ul ul ul{
+    top: 0;
+    left: 100%;
+}
+.nav-area ul ul ul li:hover a{
+    background: #34495e;
+}
 
 div.pop-up {
     position: absolute;
