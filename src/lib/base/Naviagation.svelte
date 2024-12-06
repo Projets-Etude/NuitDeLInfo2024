@@ -42,7 +42,6 @@
 <style>
 nav{
     position: fixed;
-    top: calc(50svh - 200px);
     left: calc(50vw - 200px);
     transform: rotate(160deg) scale(0);
     z-index: 400;
