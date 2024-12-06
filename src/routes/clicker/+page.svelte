@@ -337,7 +337,7 @@ a{
 }
 .nav-area{
     background: #262626;
-    z-index: 100;
+    z-index: 90;
 }
 .nav-area:after{
     content: '';

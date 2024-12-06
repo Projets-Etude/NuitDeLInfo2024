@@ -17,11 +17,9 @@
         --gray: #f1f1f1;
     }
 
-    body {
+    :global(body) {
         margin: 0;
-        font-family: 'Arial', sans-serif;
-        background: linear-gradient(to bottom, var(--light-blue), var(--primary-blue));
-        color: var(--white);
+        font-family: 'Inter', sans-serif;
     }
 
     main {
