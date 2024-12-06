@@ -70,7 +70,6 @@
         height: 500vh;
         margin: 0;
         padding: 0;
-        background: linear-gradient(180deg, #2F4858 8%, #0A1013 68%);
     }
 
     :global(body).dark {
