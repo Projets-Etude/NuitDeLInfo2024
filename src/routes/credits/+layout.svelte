@@ -16,7 +16,7 @@
 </script>
 
 <div id="sky" class:dark={darkMode}>
-    <button class:dark={darkMode} on:click={switchMode}>
+    <button class:dark={darkMode} aria-label="Switch mode" on:click={switchMode}>
         <span id="button"></span>
     </button>
     <div>
@@ -51,14 +51,14 @@
         position: relative;
         background-color: #daf7dc;
         height: 20vw;
-        transition: background-color 0.3s ease-in-out;
+        transition: background-color 0.5s ease-in-out;
     }
 
     #sky.dark {
         background-color: #333333;
     }
 
-    #button{
+    button{
         position: absolute;
         height: 20vw;
         width: 20vw;
@@ -71,13 +71,13 @@
         transition-duration: 0.4s;
     }
 
-    #button:hover {
+    button:hover {
         cursor: pointer;
         background-color: #ff8800;
         box-shadow: 6px 6px rgb(255, 153, 0);
     }
 
-    #sky.dark #button {
+    #sky.dark button {
         position: absolute;
         height: 20vw;
         width: 20vw;
@@ -90,7 +90,7 @@
         transition-duration: 0.4s;
     }
 
-    #sky.dark #button:hover {
+    #sky.dark button:hover {
         cursor: pointer;
         background-color: lightgrey;
         box-shadow: -6px 6px darkgrey;
