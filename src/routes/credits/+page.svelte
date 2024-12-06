@@ -1,11 +1,12 @@
 <script>
     import Card from "$lib/credits/Card.svelte";
-    import {onDestroy, onMount} from "svelte";
-    import {Octokit} from "@octokit/core";
+    import { onDestroy, onMount } from "svelte";
+    import { Octokit } from "@octokit/core";
     import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, BarController } from 'chart.js';
 
     Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, BarController);
 
+    let darkMode = false;
     let chart;
     let contributors = [];
     let punchCardData = [];
@@ -13,15 +14,20 @@
     const repo = "HDFC";
     const token = "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";
 
-    const octokit = new Octokit({
-        auth: token
-    });
+    const octokit = new Octokit({ auth: token });
+
+    function toggleDarkMode() {
+        darkMode = !darkMode;
+
+        if (chart) {
+            chart.destroy();
+            renderChart();
+        }
+    }
 
     async function fetchContributors() {
         const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contributors`, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+            headers: { "Authorization": `Bearer ${token}` }
         });
         if (response.ok) {
             contributors = await response.json();
@@ -35,9 +41,7 @@
             const response = await octokit.request('GET /repos/{owner}/{repo}/stats/punch_card', {
                 owner,
                 repo,
-                headers: {
-                    'X-GitHub-Api-Version': '2022-11-28'
-                }
+                headers: { 'X-GitHub-Api-Version': '2022-11-28' }
             });
 
             punchCardData = response.data;
@@ -60,8 +64,8 @@
                 datasets: [{
                     label: 'Commits par heure',
                     data: hourlyCommits,
-                    backgroundColor: 'rgba(51, 102, 153, 0.6)',
-                    borderColor: 'rgba(51, 102, 153, 1)',
+                    backgroundColor: darkMode ? 'rgba(240, 240, 240, 0.6)' : 'rgba(51, 102, 153, 0.6)',
+                    borderColor: darkMode ? 'rgba(240, 240, 240, 1)' : 'rgba(51, 102, 153, 1)',
                     borderWidth: 1
                 }]
             },
@@ -70,21 +74,29 @@
                     x: {
                         title: {
                             display: true,
-                            text: 'Heure'
+                            text: 'Heure',
+                            color: darkMode ? 'white' : 'black'
                         }
                     },
                     y: {
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Nombre de commits'
+                            text: 'Nombre de commits',
+                            color: darkMode ? 'white' : 'black'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: darkMode ? 'white' : 'black'
                         }
                     }
                 }
             }
         });
     }
-
 
     onMount(() => {
         fetchContributors();
@@ -98,7 +110,10 @@
     });
 </script>
 
-<div class="contributors-container">
+<div class="contributors-container" class:dark-mode={darkMode}>
+    <button class="toggle-button" on:click={toggleDarkMode}>
+        Switch to {darkMode ? 'Light' : 'Dark'} Mode
+    </button>
     {#each contributors as contributor}
         <Card
                 name={contributor.login}
@@ -107,12 +122,26 @@
         />
     {/each}
 </div>
-<div class="chart-container">
+
+<div class="chart-container" class:dark-mode={darkMode}>
     <h2>Historique des commits</h2>
     <canvas id="commits-chart" width="400" height="200"></canvas>
 </div>
 
 <style>
+    :global(body) {
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #333;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .dark-mode {
+        background-color: #121212;
+        color: white;
+    }
+
     .contributors-container {
         display: flex;
         flex-wrap: wrap;
@@ -120,16 +149,44 @@
         padding: 20px;
     }
 
-    canvas {
-        background-color: #f4f4f4;
-        border-radius: 25px;
-    }
-
     .chart-container {
         text-align: center;
-        color: white;
         margin: auto;
         width: 50vw;
         min-width: 200px;
+    }
+
+    canvas {
+        background-color: #fff;
+        border-radius: 10px;
+    }
+
+    .dark-mode canvas {
+        background-color: #1d1d1d;
+    }
+
+    .toggle-button {
+        margin-bottom: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .toggle-button:hover {
+        background-color: #0056b3;
+    }
+
+    .dark-mode .toggle-button {
+        background-color: #444;
+        color: white;
+    }
+
+    .dark-mode .toggle-button:hover {
+        background-color: #666;
     }
 </style>
