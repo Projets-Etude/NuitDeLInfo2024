@@ -135,14 +135,9 @@
 
 <div class="Clicker">
 
-
-    <div class="stats">
-        <a> {score} <img src="./clicker/points.png"> </a>
-        <a> Mode inversé : {inversed}</a>
-        <a> {scorePerSeconds} <img src="./clicker/points.png">/ seconde </a>
-    </div>
     <h1>Temps restants avant reset {time}</h1>
 
+    <h3>Trouvez les améliorations</h3>
 
     <nav class="nav-area">
         <ul class="menu">
@@ -193,6 +188,13 @@
         </ul>
     </nav>
 
+
+    <div class="stats">
+        <a> {score} <img src="./clicker/points.png"> </a>
+        <a> Mode inversé : {inversed}</a>
+        <a> {scorePerSeconds} <img src="./clicker/points.png">/ seconde </a>
+    </div>
+
     <div class="clicker-main">
         <div bind:this={clickerContainer} class="clicker-img">
             <button bind:this={nageur} style="left: {nageurLeft}px; top: {nageurTop}px;" type="button" class="nageur" on:click={increment}>
@@ -231,8 +233,13 @@
 
 <style>
 
+:global(body){
+    margin: 0;
+}
+
 div.Clicker{
     background-color: #86bbd8;
+    background-image: url("https://www.transparenttextures.com/patterns/arches.png");
     padding: 0;
     margin: 0;
     display: flex;
@@ -240,6 +247,16 @@ div.Clicker{
     align-items: center;
     flex-direction: column;
     position: relative;
+}
+
+div.Clicker>h1{
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+div.Clicker>h3{
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 div.clicker-main{
@@ -362,12 +379,26 @@ div.pop-up button {
     color: white;
     border-radius: 30px;
 }
+
+div.stats{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 0.5rem;
+    background: #2f4858;
+}
+
 div.stats a {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
     color: white;
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+
 }
 
 div.stats a img {
