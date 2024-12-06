@@ -26,12 +26,12 @@
         <span><i class="fa-solid fa-ship"></i></span>
       </div>
       <ul>
-        <li><a href="#"><i class="fa-solid fa-ship"></i></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
+        <li><a href="https://www.raceforwater.org/en/"><i class="fa-solid fa-ship"></i></a></li>
+        <li><a href="/"></a></li>
+        <li><a href="/retroSea"></a></li>
+        <li><a href="/clicker"></a></li>
+        <li><a href="/credits"></a></li>
+        <li><a href="/captcha"></a></li>
       </ul>
     </div>
 </nav>
@@ -45,7 +45,7 @@ nav{
     top: calc(50svh - 200px);
     left: calc(50vw - 200px);
     transform: rotate(160deg) scale(0);
-    z-index: 100;
+    z-index: 400;
 }
 .circle-menu {
     position: relative;
@@ -154,7 +154,14 @@ nav{
     height: 160px;
     margin-top: 40px;
     margin-left: 40px;
-    background: rgba(255, 255, 255, 1) url('https://htmlacademy.ru/assets/icons/monitor-4x.png') no-repeat 50% 40%;
+
+    background: rgba(255, 255, 255, 1);
+
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 25% 25%;
+
+    background-image:url('$lib/goutte.png');
     transform: skew(-30deg) rotate(-60deg);
     transition: background-color 0.5s;
 }
@@ -168,18 +175,33 @@ nav{
 }
 
 .circle-menu li:nth-child(2) a {
-    background-image: url('https://htmlacademy.ru/assets/icons/aperture-4x.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 25% 25%;
+    background-image: url('$lib/house.png');
 }
 .circle-menu li:nth-child(3) a {
-    background-image: url('https://htmlacademy.ru/assets/icons/audio-4x.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 35% 35%;
+    background-image: url('$lib/fish.png');
 }
 .circle-menu li:nth-child(4) a {
-    background-image: url('https://htmlacademy.ru/assets/icons/battery-empty-4x.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 25% 25%;
+    background-image: url('$lib/cliker.png');
 }
 .circle-menu li:nth-child(5) a {
-    background-image: url('https://htmlacademy.ru/assets/icons/bluetooth-4x.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 45% 25%;
+    background-image: url('$lib/Copyright.png');
 }
 .circle-menu li:nth-child(6) a {
-    background-image: url('https://htmlacademy.ru/assets/icons/browser-4x.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 50%;
+    background-image: url('$lib/boat.png');
 }
 </style>
