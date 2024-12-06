@@ -46,6 +46,7 @@ export default class GameScene extends Scene {
       WASTE_SPAWNER_TIME
     );
     this.#player = new Player();
+    GameObject.boat = this.#player;
     super.gameObjects.push(this.#player);
   }
 
@@ -58,10 +59,17 @@ export default class GameScene extends Scene {
     super.gameObjects.forEach((gameObject) => gameObject.update());
   }
 
-  destroyWaste(wasteGO, shadowGO, isGrab) {
-    this.#playerScore = Math.max(0, this.#playerScore + (isGrab ? 1 : -1));
+  destroyWaste(wasteGO, isGrab) {
+    this.#playerScore += isGrab ? 1 : -1;
+
+    if (this.#playerScore >= 5) {
+      successCaptcha();
+    } else if (this.#playerScore < 0) {
+      failedCaptcha();
+    }
+
     super.destroy(wasteGO);
-    super.destroy(shadowGO);
+    super.destroy(wasteGO.shadowGO);
   }
 
   spawnWaste() {
@@ -81,4 +89,8 @@ export default class GameScene extends Scene {
   randomShadowWastePosition() {
     return new Vector2(Math.random() * this.width, Math.random() * this.height);
   }
+
+  successCaptcha() {}
+
+  failedCaptcha() {}
 }

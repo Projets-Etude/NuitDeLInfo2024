@@ -2,21 +2,15 @@ import Vector2 from "$lib/captcha-game/utils/Vector2";
 
 export default class GameObject {
   static scene;
-  static #countId;
-  #id;
+  static boat;
   #position;
   #rotation;
   #sprite;
 
   constructor(position, sprite) {
-    this.#id = GameObject.#countId++;
     this.#position = position;
     this.#rotation = 0;
     this.#sprite = sprite;
-  }
-
-  get id() {
-    return this.#id;
   }
 
   get position() {

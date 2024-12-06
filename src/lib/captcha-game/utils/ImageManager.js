@@ -1,28 +1,22 @@
 export default class ImageManager {
-  imageDatas;
+  #imageDatas;
 
   constructor() {
-    this.imageDatas = new Map();
+    this.#imageDatas = new Map();
   }
 
   getData(name, source) {
-    if (!this.imageDatas.has(name)) {
+    if (!this.#imageDatas.has(name)) {
       const img = new Image();
+      const data = { name: name, image: img };
       img.src = source;
-      img.onload = () => {
-        console.log(`L'image '${name}' à été chargée`);
-      };
+      img.onload = () => console.log(`L'image '${name}' à été chargée`);
 
-      const data = {
-        name: name,
-        image: img,
-      };
-
-      this.imageDatas.set(name, data);
+      this.#imageDatas.set(name, data);
 
       return data;
     }
-    return this.imageDatas.get(name);
+    return this.#imageDatas.get(name);
   }
 
   getImage(name, source) {

@@ -3,6 +3,7 @@ import Input from "$lib/captcha-game/utils/Input";
 import Vector2 from "$lib/captcha-game/utils/Vector2";
 import Sprite from "../../utils/Sprite";
 import GameObject from "./GameObject";
+import Waste from "./Waste";
 
 export default class Player extends GameObject {
   constructor() {

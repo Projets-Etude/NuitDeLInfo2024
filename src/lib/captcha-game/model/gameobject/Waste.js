@@ -1,8 +1,11 @@
 import { randomWasteSpriteData } from "$lib/captcha-game/data/imageDatas";
 import Sprite from "../../utils/Sprite";
 import GameObject from "./GameObject";
+import Player from "./Player";
 
-const THRESHOLD_COLLIDER = 110 / 8;
+const SHADOW_THRESHOLD_COLLIDER = 15;
+const BOAT_THRESHOLD_COLLIDER = 15 * 6;
+const DELTA_ROTATION = 0.04;
 
 export default class Waste extends GameObject {
   #shadow;
@@ -14,12 +17,20 @@ export default class Waste extends GameObject {
     this.#turnDirection = Math.random() < 0.5 ? 1 : -1;
   }
 
+  get shadowGO() {
+    return this.#shadow;
+  }
+
+  isCloseToTheGround() {
+    return this.#shadow.position.minus(this.position).magnitude();
+  }
+
   update() {
     const delta = this.#shadow.position.minus(this.position);
     const distance = delta.magnitude();
 
-    if (distance <= THRESHOLD_COLLIDER) {
-      GameObject.scene.destroyWaste(this, this.#shadow, false);
+    if (distance <= SHADOW_THRESHOLD_COLLIDER) {
+      GameObject.scene.destroyWaste(this, this.checkIfBoat());
       return;
     }
 
@@ -27,6 +38,14 @@ export default class Waste extends GameObject {
 
     this.position.x += direction.x;
     this.position.y += direction.y;
-    this.rotation += 0.04 * this.#turnDirection;
+    this.rotation += this.#turnDirection * DELTA_ROTATION;
+  }
+
+  checkIfBoat() {
+    return this.distanceTo(GameObject.boat) <= BOAT_THRESHOLD_COLLIDER;
+  }
+
+  distanceTo(go) {
+    return go.position.minus(this.position).magnitude();
   }
 }
