@@ -62,6 +62,29 @@
 </div>
 
 <div class="container">
+    <h1>Chef d'équipe</h1>
+    <h3>Hugo Desmons</h3><br>
+
+    <h1>Section accueil</h1>
+    <h3>Hugo Desmons</h3><br>
+
+    <h1>Jeu retroSea</h1>
+    <h3>Thomas Guislin</h3><br>
+
+    <h1>Jeu clicker</h1>
+    <h3>Hugo Debuyser</h3>
+    <h3>Matias Mennecart</h3><br>
+
+    <h1>Page crédits</h1>
+    <h3>Dylan Lecocq</h3>
+    <h3>Camille Okubo</h3><br>
+
+    <h1>Footer et header</h1>
+    <h3>Baptiste Collesson</h3><br>
+
+    <h1>Captcha</h1>
+    <h3>Antoine Pourtchie</h3>
+
     <slot />
 </div>
 
@@ -69,11 +92,6 @@
     :global(body) {
         margin: 0;
         padding: 0;
-    }
-
-    :global(body).dark {
-        background: linear-gradient(180deg, #86BBD8 8%, #0A1013 68%);
-
     }
 
     #sky {
@@ -172,10 +190,11 @@
         width: 80vw;
         height: 80vh;
         position: absolute;
-        top: 50%;
+        top: 40vw;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
+        color: white;
         z-index: 6;
     }
 
