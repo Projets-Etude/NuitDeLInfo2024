@@ -255,4 +255,10 @@
             flex-direction: column;
         }
     }
+
+    @media (max-height: 700px) {
+        .wrapper {
+            padding-bottom: 150vh;
+        }
+    }
 </style>
