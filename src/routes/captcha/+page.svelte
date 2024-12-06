@@ -34,6 +34,7 @@
 </div>
 
 <style>
+    /* Global styles */
     .global {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -42,16 +43,17 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background: linear-gradient(to bottom, #006994, #00a8cc);
+        background: linear-gradient(to bottom, #005f89, #009fdc);
         color: #ffffff;
         overflow: hidden;
         padding: 20px;
     }
 
+    /* Captcha container styles */
     .captcha-content {
         width: 100%;
-        max-width: 80%; /* Limite la taille max de .captcha-content */
-        padding: 40px; /* Augmenter les marges internes */
+        max-width: 50%;
+        padding: 40px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 15px;
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
@@ -69,23 +71,23 @@
 
     .captcha-score {
         font-size: 1.5rem;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         color: #cce7ff;
     }
 
+    /* Canvas styles */
     .captcha-canvas {
         display: block;
         margin: 20px auto;
-        width: 100%; /* 80% de la largeur de .captcha-content */
-        height: 100%; /* 60% de la hauteur de .captcha-content */
+        width: 40em;
+        height: 25em;
         border: 3px solid #ffffff;
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         background: rgba(255, 255, 255, 0.2);
-        max-width: 100%; /* Assure que le canvas ne dépasse pas la largeur de son conteneur */
-        max-height: 100%; /* Assure que le canvas ne dépasse pas la hauteur de son conteneur */
     }
 
+    /* Button styles */
     button {
         background: #00a8cc;
         color: #ffffff;
@@ -111,12 +113,14 @@
         transform: scale(1);
     }
 
+    /* Success and failure messages */
     #captcha-success, #captcha-failure {
         margin-top: 20px;
         font-size: 1.2rem;
         font-weight: bold;
         padding: 10px;
         border-radius: 10px;
+        text-align: center;
     }
 
     #captcha-success {
@@ -133,6 +137,7 @@
         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     }
 
+    /* Hidden class for toggling visibility */
     .hidden {
         display: none;
     }

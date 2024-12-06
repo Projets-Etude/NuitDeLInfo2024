@@ -9,6 +9,9 @@ export default class Canvas {
     this.isRunning = false;
 
     new ResizeObserver(() => {
+      console.log(
+        `h: ${canvasElement.height}; cw: ${canvasElement.clientHeight}`
+      );
       canvasElement.width = canvasElement.clientWidth;
       canvasElement.height = canvasElement.clientHeight;
       this.width = canvasElement.clientWidth;
