@@ -12,18 +12,31 @@ const MAX_PLAYER_SCORE = 5;
 
 export default class GameScene extends Scene {
   #canvas;
-  #context;
+  #gameContentElement;
+  #successElement;
+  #failedElement;
+
+  #canvasManager;
   #mainInterval;
   #spawnInterval;
   #player;
   #playerScore;
 
-  constructor(canvasElement, scoreElement) {
+  constructor(
+    canvasElement,
+    scoreElement,
+    gameContentElement,
+    successElement,
+    failedElement
+  ) {
     super();
-    GameObject.scene = this;
     this.#canvas = canvasElement;
-    this.#context = new CanvasManager(canvasElement, scoreElement, this);
-    this.#playerScore = 0;
+    this.#gameContentElement = gameContentElement;
+    this.#successElement = successElement;
+    this.#failedElement = failedElement;
+    this.#canvasManager = new CanvasManager(canvasElement, scoreElement, this);
+    GameObject.scene = this;
+    this.initialize();
   }
 
   playerScore() {
@@ -36,7 +49,9 @@ export default class GameScene extends Scene {
 
   initialize() {
     console.log("initialize");
-    this.#context.start();
+    this.gameCaptcha();
+    this.#playerScore = 0;
+    this.#canvasManager.start();
     this.#mainInterval = setInterval(
       this.update.bind(this),
       1000 / UPDATES_PER_SECOND
@@ -52,7 +67,10 @@ export default class GameScene extends Scene {
 
   stop() {
     console.log("stop");
-    this.#context.stop();
+    this.#canvasManager.stop();
+    clearInterval(this.#mainInterval);
+    clearInterval(this.#spawnInterval);
+    super.stop();
   }
 
   update() {
@@ -63,9 +81,11 @@ export default class GameScene extends Scene {
     this.#playerScore += isGrab ? 1 : -1;
 
     if (this.#playerScore >= 5) {
-      successCaptcha();
+      this.#playerScore = 5;
+      this.successCaptcha();
     } else if (this.#playerScore < 0) {
-      failedCaptcha();
+      this.#playerScore = 0;
+      this.failedCaptcha();
     }
 
     super.destroy(wasteGO);
@@ -90,7 +110,25 @@ export default class GameScene extends Scene {
     return new Vector2(Math.random() * this.width, Math.random() * this.height);
   }
 
-  successCaptcha() {}
+  gameCaptcha() {
+    console.log("Game Captcha !");
+    this.#gameContentElement.classList.remove("hidden");
+    this.#successElement.classList.add("hidden");
+    this.#failedElement.classList.add("hidden");
+  }
 
-  failedCaptcha() {}
+  successCaptcha() {
+    console.log("Success Captcha !");
+    this.#gameContentElement.classList.add("hidden");
+    this.#successElement.classList.remove("hidden");
+    this.#failedElement.classList.add("hidden");
+  }
+
+  failedCaptcha() {
+    console.log("Failed Captcha !");
+    console.log(this.#failedElement);
+    this.#gameContentElement.classList.add("hidden");
+    this.#successElement.classList.add("hidden");
+    this.#failedElement.classList.remove("hidden");
+  }
 }

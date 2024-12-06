@@ -29,6 +29,10 @@ export default class Scene {
     this.#height = height;
   }
 
+  stop() {
+    this.#gameObjects = [];
+  }
+
   destroy(go) {
     const i = this.#gameObjects.indexOf(go);
     if (i > -1) {
