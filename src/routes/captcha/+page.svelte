@@ -27,32 +27,111 @@
         <p class="captcha-score" bind:this={scoreElement}>Score: ?</p>
         <canvas class="captcha-canvas" bind:this={canvasElement}></canvas>
         <button on:click={initializeGame}>Launch game</button>
-        <button on:click={handleStop}>Stop game</button>
+        <button on:click={handleStop}>X</button>
+        
+        <div id="captcha-success" class="hidden">Vous avez réussi le captcha !</div>
+        <div id="captcha-failure" class="hidden">Échec du captcha, réessayez.</div>
     </section>
 </div>
 
 <style>
     .global {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
         display: flex;
-        align-items: center;
         justify-content: center;
-        height: 100svh;
-        width: 100svw;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(to bottom, #006994, #00a8cc);
+        color: #ffffff;
+        overflow: hidden;
+        padding: 20px;
     }
 
-    .global .captcha-content {
-        border-radius: 3em;
-        background-color: gray;
+    .captcha-content {
+        width: 100%;
+        max-width: 80%;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
         text-align: center;
-        height: 75%;
-        width: 75%;
+        box-sizing: border-box;
+    }
+
+    .captcha-content h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #ffffff;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .captcha-score {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        color: #cce7ff;
     }
 
     .captcha-canvas {
-        width: calc(100% - 2em);
-        height: calc(80% - 1em);
-        margin: 1em;
-        border-radius: 2em;
-        background-color: white;
+        display: block;
+        margin: 20px auto;
+        border: 3px solid #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    button {
+        background: #00a8cc;
+        color: #ffffff;
+        border: none;
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    button:hover {
+        background: #006994;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+        transform: scale(1.05);
+    }
+
+    button:active {
+        background: #004d66;
+        transform: scale(1);
+    }
+
+    #captcha-success, #captcha-failure {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 10px;
+        display: none;
+    }
+
+    #captcha-success {
+        background: rgba(0, 255, 150, 0.2);
+        color: #00ff99;
+        border: 2px solid #00ff99;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    #captcha-failure {
+        background: rgba(255, 0, 0, 0.2);
+        color: #ff6666;
+        border: 2px solid #ff6666;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .hidden {
+        display: none;
     }
 </style>
